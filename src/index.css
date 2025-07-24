@@ -2,41 +2,60 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Linux OS Design System - Dark theme with blue/teal accents */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* OS Background & Surface */
+    --background: 220 15% 8%;
+    --foreground: 210 20% 88%;
+    
+    /* Desktop & Windows */
+    --desktop: 220 15% 6%;
+    --window: 220 12% 12%;
+    --window-foreground: 210 20% 88%;
+    
+    /* Taskbar & Panels */
+    --panel: 220 15% 10%;
+    --panel-foreground: 210 20% 88%;
+    
+    /* OS Blue Theme */
+    --os-primary: 200 100% 45%;
+    --os-primary-hover: 200 100% 50%;
+    --os-primary-foreground: 220 15% 8%;
+    
+    /* Terminal Colors */
+    --terminal-bg: 220 20% 5%;
+    --terminal-text: 120 50% 70%;
+    --terminal-prompt: 200 100% 60%;
+    
+    /* Legacy shadcn tokens for compatibility */
+    --card: 220 12% 12%;
+    --card-foreground: 210 20% 88%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --popover: 220 12% 12%;
+    --popover-foreground: 210 20% 88%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 200 100% 45%;
+    --primary-foreground: 220 15% 8%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --secondary: 220 15% 15%;
+    --secondary-foreground: 210 20% 88%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 220 15% 15%;
+    --muted-foreground: 210 15% 60%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 220 15% 15%;
+    --accent-foreground: 210 20% 88%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 210 20% 88%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --border: 220 15% 20%;
+    --input: 220 15% 15%;
+    --ring: 200 100% 45%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
+    --radius: 0.375rem;
 
     --sidebar-background: 0 0% 98%;
 

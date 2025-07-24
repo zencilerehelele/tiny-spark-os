@@ -24,6 +24,29 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				
+				// OS-specific colors
+				desktop: 'hsl(var(--desktop))',
+				window: {
+					DEFAULT: 'hsl(var(--window))',
+					foreground: 'hsl(var(--window-foreground))'
+				},
+				panel: {
+					DEFAULT: 'hsl(var(--panel))',
+					foreground: 'hsl(var(--panel-foreground))'
+				},
+				'os-primary': {
+					DEFAULT: 'hsl(var(--os-primary))',
+					hover: 'hsl(var(--os-primary-hover))',
+					foreground: 'hsl(var(--os-primary-foreground))'
+				},
+				terminal: {
+					bg: 'hsl(var(--terminal-bg))',
+					text: 'hsl(var(--terminal-text))',
+					prompt: 'hsl(var(--terminal-prompt))'
+				},
+				
+				// Legacy shadcn colors
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
