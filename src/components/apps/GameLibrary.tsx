@@ -192,7 +192,7 @@ export const GameLibrary = () => {
               <div className="pt-4 border-t border-border">
                 <h4 className="font-semibold text-window-foreground mb-2">System Requirements</h4>
                 <div className="text-sm text-muted-foreground space-y-1">
-                  <div>OS: TinySparkOS 1.0+</div>
+                  <div>OS: TinySpark 2.0+</div>
                   <div>Memory: 512MB RAM</div>
                   <div>Storage: 100MB</div>
                 </div>

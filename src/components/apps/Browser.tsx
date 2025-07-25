@@ -9,10 +9,10 @@ export const Browser = () => {
 
   const pages = {
     home: {
-      title: "TinySparkOS Browser - Home",
+      title: "TinySpark Browser - Home",
       content: (
         <div className="p-8 space-y-6">
-          <h1 className="text-3xl font-bold text-window-foreground">Welcome to TinySparkOS Browser</h1>
+          <h1 className="text-3xl font-bold text-window-foreground">Welcome to TinySpark Browser</h1>
           <div className="grid grid-cols-2 gap-4">
             <div className="p-4 border border-border rounded-lg hover:bg-muted/50 cursor-pointer"
                  onClick={() => { setCurrentPage("search"); setUrl("https://search.tinyspark.com"); }}>
@@ -39,7 +39,7 @@ export const Browser = () => {
       )
     },
     search: {
-      title: "TinySparkOS Search",
+      title: "TinySpark Search",
       content: (
         <div className="p-8 space-y-6">
           <div className="text-center space-y-4">
@@ -52,14 +52,14 @@ export const Browser = () => {
       )
     },
     news: {
-      title: "TinySparkOS News",
+      title: "TinySpark News",
       content: (
         <div className="p-8 space-y-6">
           <h1 className="text-2xl font-bold text-window-foreground">Latest News</h1>
           <div className="space-y-4">
             <article className="border-b border-border pb-4">
-              <h3 className="font-semibold text-window-foreground">TinySparkOS v1.0 Released</h3>
-              <p className="text-sm text-muted-foreground">New features include improved terminal and file manager</p>
+              <h3 className="font-semibold text-window-foreground">TinySpark v2.0 Released</h3>
+              <p className="text-sm text-muted-foreground">Major update with browser, game library and background customization</p>
             </article>
             <article className="border-b border-border pb-4">
               <h3 className="font-semibold text-window-foreground">Game Library Now Available</h3>
@@ -70,14 +70,14 @@ export const Browser = () => {
       )
     },
     docs: {
-      title: "TinySparkOS Documentation",
+      title: "TinySpark Documentation",
       content: (
         <div className="p-8 space-y-6">
           <h1 className="text-2xl font-bold text-window-foreground">Documentation</h1>
           <div className="space-y-4">
             <section>
               <h3 className="font-semibold text-window-foreground">Getting Started</h3>
-              <p className="text-sm text-muted-foreground">Learn how to use TinySparkOS</p>
+              <p className="text-sm text-muted-foreground">Learn how to use TinySpark</p>
             </section>
             <section>
               <h3 className="font-semibold text-window-foreground">Terminal Commands</h3>
@@ -88,7 +88,7 @@ export const Browser = () => {
       )
     },
     apps: {
-      title: "TinySparkOS App Store",
+      title: "TinySpark App Store",
       content: (
         <div className="p-8 space-y-6">
           <h1 className="text-2xl font-bold text-window-foreground">App Store</h1>

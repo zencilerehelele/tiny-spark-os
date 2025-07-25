@@ -7,7 +7,7 @@ interface Command {
 
 export const Terminal = () => {
   const [commands, setCommands] = useState<Command[]>([
-    { input: "", output: ["Welcome to TinySparkOS Terminal", "Type 'help' for available commands", ""] }
+    { input: "", output: ["Welcome to TinySpark Terminal", "Type 'help' for available commands", ""] }
   ]);
   const [currentInput, setCurrentInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -49,7 +49,7 @@ export const Terminal = () => {
         setCurrentInput("");
         return;
       case "uname":
-        output = ["TinySparkOS 1.0.0", ""];
+        output = ["TinySpark 2.0.0", ""];
         break;
       default:
         if (cmd.startsWith("echo ")) {

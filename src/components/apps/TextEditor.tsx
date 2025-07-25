@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
 export const TextEditor = () => {
-  const [content, setContent] = useState("Welcome to TinySparkOS Text Editor\n\nStart typing your document here...");
+  const [content, setContent] = useState("Welcome to TinySpark Text Editor\n\nStart typing your document here...");
   const [filename, setFilename] = useState("untitled.txt");
   const [isModified, setIsModified] = useState(false);
   const { toast } = useToast();
