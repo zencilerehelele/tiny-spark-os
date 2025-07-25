@@ -7,7 +7,7 @@ interface Command {
 
 export const Terminal = () => {
   const [commands, setCommands] = useState<Command[]>([
-    { input: "", output: ["Welcome to TinySpark Terminal", "Type 'help' for available commands", ""] }
+    { input: "", output: ["Welcome to TinySpark Midnight Terminal", "Type 'help' for available commands", ""] }
   ]);
   const [currentInput, setCurrentInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -29,6 +29,8 @@ export const Terminal = () => {
           "  clear     - Clear terminal",
           "  uname     - System information",
           "  echo [text] - Echo text",
+          "  openapp [app] - Open an application",
+          "    Available apps: browser, files, editor, calculator, music, youtube, games, settings",
           ""
         ];
         break;
@@ -49,11 +51,32 @@ export const Terminal = () => {
         setCurrentInput("");
         return;
       case "uname":
-        output = ["TinySpark 2.0.0", ""];
+        output = ["TinySpark Midnight 2.0.0", ""];
         break;
       default:
         if (cmd.startsWith("echo ")) {
           output = [input.slice(5), ""];
+        } else if (cmd.startsWith("openapp ")) {
+          const appName = input.slice(8).trim().toLowerCase();
+          const appMap: { [key: string]: { app: string; title: string } } = {
+            'browser': { app: 'browser', title: 'Browser' },
+            'files': { app: 'files', title: 'Files' },
+            'editor': { app: 'editor', title: 'Text Editor' },
+            'calculator': { app: 'calculator', title: 'Calculator' },
+            'music': { app: 'music', title: 'Music' },
+            'youtube': { app: 'youtube', title: 'YouTube' },
+            'games': { app: 'games', title: 'Games' },
+            'settings': { app: 'settings', title: 'Settings' }
+          };
+          
+          if (appMap[appName]) {
+            window.dispatchEvent(new CustomEvent('openApp', { 
+              detail: appMap[appName]
+            }));
+            output = [`Opening ${appMap[appName].title}...`, ""];
+          } else {
+            output = [`Unknown app: ${appName}`, "Available apps: browser, files, editor, calculator, music, youtube, games, settings", ""];
+          }
         } else if (cmd === "") {
           output = [""];
         } else {
@@ -93,7 +116,7 @@ export const Terminal = () => {
         <div key={index}>
           {command.input && (
             <div className="flex">
-              <span className="text-terminal-prompt">user@tinyspark:~$ </span>
+              <span className="text-terminal-prompt">user@tinyspark-midnight:~$ </span>
               <span>{command.input}</span>
             </div>
           )}
@@ -106,7 +129,7 @@ export const Terminal = () => {
       ))}
       
       <div className="flex">
-        <span className="text-terminal-prompt">user@tinyspark:~$ </span>
+        <span className="text-terminal-prompt">user@tinyspark-midnight:~$ </span>
         <input
           ref={inputRef}
           type="text"

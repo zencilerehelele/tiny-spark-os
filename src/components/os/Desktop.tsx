@@ -1,10 +1,10 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import wallpaper from "@/assets/linux-wallpaper.jpg";
 import { Taskbar } from "./Taskbar";
 import { WindowManager } from "./WindowManager";
 import { DesktopIcon } from "./DesktopIcon";
 import { StartupScreen } from "./StartupScreen";
-import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings } from "lucide-react";
+import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings, Youtube, Music } from "lucide-react";
 
 export const Desktop = () => {
   const [isStartup, setIsStartup] = useState(true);
@@ -18,6 +18,7 @@ export const Desktop = () => {
     position: { x: number; y: number };
     size: { width: number; height: number };
   }>>([]);
+  const [iconPositions, setIconPositions] = useState<{ [key: string]: { x: number; y: number } }>({});
 
   const openApp = (app: string, title: string) => {
     const newWindow = {
@@ -64,9 +65,28 @@ export const Desktop = () => {
     { name: "Text Editor", icon: FileText, app: "editor" },
     { name: "Calculator", icon: Calculator, app: "calculator" },
     { name: "Browser", icon: Globe, app: "browser" },
+    { name: "YouTube", icon: Youtube, app: "youtube" },
+    { name: "Music", icon: Music, app: "music" },
     { name: "Games", icon: Gamepad2, app: "games" },
     { name: "Settings", icon: Settings, app: "settings" }
   ];
+
+  // Listen for terminal app open events
+  React.useEffect(() => {
+    const handleOpenApp = (event: CustomEvent) => {
+      openApp(event.detail.app, event.detail.title);
+    };
+    
+    window.addEventListener('openApp', handleOpenApp as EventListener);
+    return () => window.removeEventListener('openApp', handleOpenApp as EventListener);
+  }, []);
+
+  const handleIconPositionChange = (iconName: string, position: { x: number; y: number }) => {
+    setIconPositions(prev => ({
+      ...prev,
+      [iconName]: position
+    }));
+  };
 
   if (isStartup) {
     return <StartupScreen onStartupComplete={() => setIsStartup(false)} />;
@@ -84,14 +104,20 @@ export const Desktop = () => {
       }}
     >
       {/* Desktop Icons */}
-      <div className="absolute top-4 left-4 grid gap-4">
+      <div className="absolute inset-0 pointer-events-none">
         {desktopIcons.map((icon, index) => (
-          <DesktopIcon
-            key={icon.name}
-            name={icon.name}
-            icon={icon.icon}
-            onDoubleClick={() => openApp(icon.app, icon.name)}
-          />
+          <div key={icon.name} className="pointer-events-auto">
+            <DesktopIcon
+              name={icon.name}
+              icon={icon.icon}
+              onDoubleClick={() => openApp(icon.app, icon.name)}
+              position={iconPositions[icon.name] || { 
+                x: 20, 
+                y: 20 + index * 100 
+              }}
+              onPositionChange={(position) => handleIconPositionChange(icon.name, position)}
+            />
+          </div>
         ))}
       </div>
 

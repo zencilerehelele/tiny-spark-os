@@ -7,13 +7,15 @@ interface StartupScreenProps {
 
 export const StartupScreen = ({ onStartupComplete }: StartupScreenProps) => {
   const [progress, setProgress] = useState(0);
-  const [currentMessage, setCurrentMessage] = useState("Initializing TinySpark...");
+  const [currentMessage, setCurrentMessage] = useState("Initializing TinySpark Midnight...");
 
   const messages = [
-    "Initializing TinySpark...",
+    "Initializing TinySpark Midnight...",
     "Loading kernel modules...",
     "Starting system services...",
     "Mounting filesystems...",
+    "Loading new apps (YouTube, Music Player)...",
+    "Initializing draggable interface...",
     "Loading desktop environment...",
     "Ready!"
   ];
@@ -43,8 +45,8 @@ export const StartupScreen = ({ onStartupComplete }: StartupScreenProps) => {
     <div className="h-screen w-screen bg-gradient-to-br from-terminal-bg to-panel flex items-center justify-center">
       <div className="text-center space-y-8">
         <div className="space-y-4">
-          <h1 className="text-6xl font-bold text-os-primary">TinySpark</h1>
-          <p className="text-xl text-muted-foreground">Linux-inspired Operating System</p>
+          <h1 className="text-6xl font-bold text-os-primary">TinySpark Midnight</h1>
+          <p className="text-xl text-muted-foreground">Version 2.0.0 - Enhanced Experience</p>
         </div>
         
         <div className="space-y-4 w-80">

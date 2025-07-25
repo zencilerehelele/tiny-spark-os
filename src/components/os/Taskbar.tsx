@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Menu, Terminal, FolderOpen, FileText, Calculator, Clock, Globe, Gamepad2, Settings } from "lucide-react";
+import { Menu, Terminal, FolderOpen, FileText, Calculator, Clock, Globe, Gamepad2, Settings, Youtube, Music } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface TaskbarProps {
@@ -29,6 +29,8 @@ export const Taskbar = ({ windows, onAppClick, onWindowRestore }: TaskbarProps) 
     { name: "Text Editor", icon: FileText, app: "editor" },
     { name: "Calculator", icon: Calculator, app: "calculator" },
     { name: "Browser", icon: Globe, app: "browser" },
+    { name: "YouTube", icon: Youtube, app: "youtube" },
+    { name: "Music", icon: Music, app: "music" },
     { name: "Games", icon: Gamepad2, app: "games" },
     { name: "Settings", icon: Settings, app: "settings" }
   ];

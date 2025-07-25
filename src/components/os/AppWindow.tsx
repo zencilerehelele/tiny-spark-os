@@ -8,6 +8,8 @@ import { Calculator } from "../apps/Calculator";
 import { Browser } from "../apps/Browser";
 import { GameLibrary } from "../apps/GameLibrary";
 import { BackgroundChanger } from "./BackgroundChanger";
+import YouTube from "../apps/YouTube";
+import MusicPlayer from "../apps/MusicPlayer";
 
 interface Window {
   id: string;
@@ -78,6 +80,10 @@ export const AppWindow = ({ window, onClose, onMinimize, onUpdate, currentBackgr
         return <Calculator />;
       case 'browser':
         return <Browser />;
+      case 'youtube':
+        return <YouTube />;
+      case 'music':
+        return <MusicPlayer />;
       case 'games':
         return <GameLibrary />;
       case 'settings':
