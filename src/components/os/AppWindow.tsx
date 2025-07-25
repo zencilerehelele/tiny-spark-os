@@ -5,6 +5,9 @@ import { Terminal } from "../apps/Terminal";
 import { FileManager } from "../apps/FileManager";
 import { TextEditor } from "../apps/TextEditor";
 import { Calculator } from "../apps/Calculator";
+import { Browser } from "../apps/Browser";
+import { GameLibrary } from "../apps/GameLibrary";
+import { BackgroundChanger } from "./BackgroundChanger";
 
 interface Window {
   id: string;
@@ -20,9 +23,11 @@ interface AppWindowProps {
   onClose: () => void;
   onMinimize: () => void;
   onUpdate: (updates: Partial<Window>) => void;
+  currentBackground: string;
+  onBackgroundChange: (background: string, type: 'image' | 'color' | 'gradient') => void;
 }
 
-export const AppWindow = ({ window, onClose, onMinimize, onUpdate }: AppWindowProps) => {
+export const AppWindow = ({ window, onClose, onMinimize, onUpdate, currentBackground, onBackgroundChange }: AppWindowProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const windowRef = useRef<HTMLDivElement>(null);
@@ -71,6 +76,12 @@ export const AppWindow = ({ window, onClose, onMinimize, onUpdate }: AppWindowPr
         return <TextEditor />;
       case 'calculator':
         return <Calculator />;
+      case 'browser':
+        return <Browser />;
+      case 'games':
+        return <GameLibrary />;
+      case 'settings':
+        return <BackgroundChanger currentBackground={currentBackground} onBackgroundChange={onBackgroundChange} />;
       default:
         return <div className="p-4 text-window-foreground">App not found</div>;
     }

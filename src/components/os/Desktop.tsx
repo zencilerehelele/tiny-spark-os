@@ -3,9 +3,13 @@ import wallpaper from "@/assets/linux-wallpaper.jpg";
 import { Taskbar } from "./Taskbar";
 import { WindowManager } from "./WindowManager";
 import { DesktopIcon } from "./DesktopIcon";
-import { FolderOpen, Terminal, FileText, Calculator } from "lucide-react";
+import { StartupScreen } from "./StartupScreen";
+import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings } from "lucide-react";
 
 export const Desktop = () => {
+  const [isStartup, setIsStartup] = useState(true);
+  const [background, setBackground] = useState(wallpaper);
+  const [backgroundType, setBackgroundType] = useState<'image' | 'color' | 'gradient'>('image');
   const [windows, setWindows] = useState<Array<{
     id: string;
     app: string;
@@ -49,18 +53,32 @@ export const Desktop = () => {
     ));
   };
 
+  const handleBackgroundChange = (newBackground: string, type: 'image' | 'color' | 'gradient') => {
+    setBackground(newBackground);
+    setBackgroundType(type);
+  };
+
   const desktopIcons = [
     { name: "Files", icon: FolderOpen, app: "files" },
     { name: "Terminal", icon: Terminal, app: "terminal" },
     { name: "Text Editor", icon: FileText, app: "editor" },
-    { name: "Calculator", icon: Calculator, app: "calculator" }
+    { name: "Calculator", icon: Calculator, app: "calculator" },
+    { name: "Browser", icon: Globe, app: "browser" },
+    { name: "Games", icon: Gamepad2, app: "games" },
+    { name: "Settings", icon: Settings, app: "settings" }
   ];
+
+  if (isStartup) {
+    return <StartupScreen onStartupComplete={() => setIsStartup(false)} />;
+  }
 
   return (
     <div 
       className="h-screen w-screen bg-desktop relative overflow-hidden"
       style={{
-        backgroundImage: `url(${wallpaper})`,
+        background: backgroundType === 'image' 
+          ? `url(${background})` 
+          : background,
         backgroundSize: 'cover',
         backgroundPosition: 'center'
       }}
@@ -83,6 +101,8 @@ export const Desktop = () => {
         onClose={closeWindow}
         onMinimize={minimizeWindow}
         onUpdate={updateWindow}
+        currentBackground={background}
+        onBackgroundChange={handleBackgroundChange}
       />
 
       {/* Taskbar */}
