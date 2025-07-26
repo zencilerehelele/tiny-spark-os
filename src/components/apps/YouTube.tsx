@@ -11,6 +11,16 @@ const YouTube = () => {
   const videos = [
     {
       id: 1,
+      title: "TinySpark Midnight OS - Complete Overview & Demo",
+      channel: "TinySpark Official",
+      views: "5.2M views",
+      duration: "8:45",
+      thumbnail: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=320&h=180&fit=crop&crop=center",
+      description: "Experience the beauty and functionality of TinySpark Midnight OS. See all features including draggable icons, terminal commands, music player, and more!",
+      videoSrc: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4"
+    },
+    {
+      id: 2,
       title: "Ambient Space Music - Deep Focus",
       channel: "SpaceVibes",
       views: "2.1M views",
@@ -19,7 +29,7 @@ const YouTube = () => {
       description: "Perfect ambient music for deep work and focus sessions."
     },
     {
-      id: 2,
+      id: 3,
       title: "Coding Music - Lo-Fi Hip Hop",
       channel: "CodeBeats",
       views: "890K views",
@@ -28,7 +38,7 @@ const YouTube = () => {
       description: "Chill lo-fi beats perfect for programming sessions."
     },
     {
-      id: 3,
+      id: 4,
       title: "Nature Sounds - Forest Rain",
       channel: "NatureSounds",
       views: "3.5M views",
@@ -37,7 +47,7 @@ const YouTube = () => {
       description: "Relaxing forest rain sounds for meditation and sleep."
     },
     {
-      id: 4,
+      id: 5,
       title: "Synthwave Retrowave Mix",
       channel: "RetroVibes",
       views: "1.2M views",
@@ -80,23 +90,35 @@ const YouTube = () => {
         {selectedVideo && (
           <div className="flex-1 p-4">
             <div className="aspect-video bg-muted rounded-lg mb-4 relative overflow-hidden">
-              <img 
-                src={selectedVideo.thumbnail} 
-                alt={selectedVideo.title}
-                className="w-full h-full object-cover"
-              />
-              <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                <Button
-                  size="lg"
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className="w-16 h-16 rounded-full"
-                >
-                  {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
-                </Button>
-              </div>
-              <div className="absolute bottom-4 right-4 bg-black/80 text-white px-2 py-1 rounded text-sm">
-                {selectedVideo.duration}
-              </div>
+              {selectedVideo.videoSrc ? (
+                <video 
+                  src={selectedVideo.videoSrc}
+                  poster={selectedVideo.thumbnail}
+                  controls
+                  className="w-full h-full"
+                  autoPlay={isPlaying}
+                />
+              ) : (
+                <>
+                  <img 
+                    src={selectedVideo.thumbnail} 
+                    alt={selectedVideo.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <Button
+                      size="lg"
+                      onClick={() => setIsPlaying(!isPlaying)}
+                      className="w-16 h-16 rounded-full"
+                    >
+                      {isPlaying ? <Pause className="w-8 h-8" /> : <Play className="w-8 h-8" />}
+                    </Button>
+                  </div>
+                  <div className="absolute bottom-4 right-4 bg-black/80 text-white px-2 py-1 rounded text-sm">
+                    {selectedVideo.duration}
+                  </div>
+                </>
+              )}
             </div>
             
             <h1 className="text-xl font-semibold mb-2">{selectedVideo.title}</h1>

@@ -11,28 +11,9 @@ const SearchPage = () => {
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
     
-    setIsLoading(true);
-    // Simulate search results
-    setTimeout(() => {
-      setSearchResults([
-        {
-          title: "TinySpark Midnight - Official Site",
-          url: "https://tinyspark.com",
-          description: "The latest version of TinySpark OS with enhanced features and modern design."
-        },
-        {
-          title: "Linux Mint - Community-driven Linux distribution",
-          url: "https://linuxmint.com",
-          description: "A modern, elegant and comfortable operating system which is both powerful and easy to use."
-        },
-        {
-          title: "React - A JavaScript library for building user interfaces",
-          url: "https://reactjs.org",
-          description: "React makes it painless to create interactive UIs."
-        }
-      ]);
-      setIsLoading(false);
-    }, 1000);
+    // Open Google search in a new window/tab
+    const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
+    window.open(googleSearchUrl, '_blank');
   };
 
   return (
@@ -53,24 +34,11 @@ const SearchPage = () => {
         </div>
       </div>
       
-      {isLoading && (
-        <div className="text-center text-muted-foreground">Searching...</div>
-      )}
-      
-      {searchResults.length > 0 && (
-        <div className="max-w-4xl mx-auto space-y-4">
-          <div className="text-sm text-muted-foreground">About {searchResults.length} results</div>
-          {searchResults.map((result, index) => (
-            <div key={index} className="border-b border-border pb-4">
-              <h3 className="text-lg font-medium text-os-primary cursor-pointer hover:underline">
-                {result.title}
-              </h3>
-              <div className="text-sm text-green-600">{result.url}</div>
-              <p className="text-muted-foreground">{result.description}</p>
-            </div>
-          ))}
+      <div className="max-w-4xl mx-auto space-y-4">
+        <div className="text-center text-muted-foreground">
+          Click search to open results in Google
         </div>
-      )}
+      </div>
     </div>
   );
 };

@@ -20,7 +20,7 @@ const MusicPlayer = () => {
       artist: "Kanye West",
       album: "Graduation",
       duration: "5:11",
-      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // Placeholder audio
+      src: "https://www.mboxdrive.com/Stronger.mp3" // Real Kanye West track
     },
     {
       id: 2,

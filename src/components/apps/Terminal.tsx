@@ -109,12 +109,31 @@ export const Terminal = () => {
   }, []);
 
   return (
-    <div 
-      className="h-full bg-black text-green-400 font-mono text-sm p-4 overflow-auto"
-      ref={terminalRef}
-      onClick={() => inputRef.current?.focus()}
-      style={{ fontFamily: 'monospace' }}
-    >
+    <div className="h-full bg-black text-green-400 font-mono text-sm flex flex-col">
+      {/* Header */}
+      <div className="bg-slate-700 px-4 py-2 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1">
+            <div className="w-3 h-3 rounded-full bg-red-500"></div>
+            <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
+            <div className="w-3 h-3 rounded-full bg-green-500"></div>
+          </div>
+          <div className="flex items-center gap-2 ml-2">
+            <div className="flex items-center justify-center w-5 h-5 bg-gradient-to-br from-blue-500 to-purple-600 rounded text-white text-xs font-bold">
+              TS
+            </div>
+            <span className="text-white text-sm font-medium">Terminal</span>
+          </div>
+        </div>
+      </div>
+      
+      {/* Terminal Content */}
+      <div 
+        className="flex-1 bg-black text-green-400 font-mono text-sm p-4 overflow-auto"
+        ref={terminalRef}
+        onClick={() => inputRef.current?.focus()}
+        style={{ fontFamily: 'monospace' }}
+      >
       {commands.map((command, index) => (
         <div key={index}>
           {command.input && (
@@ -148,6 +167,7 @@ export const Terminal = () => {
           className="flex-1 bg-transparent outline-none text-green-400"
           autoFocus
         />
+      </div>
       </div>
     </div>
   );
