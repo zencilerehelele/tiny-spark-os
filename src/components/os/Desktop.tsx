@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import wallpaper from "@/assets/linux-wallpaper.jpg";
+import neonWallpaper from "@/assets/neon-city-wallpaper.jpg";
 import { Taskbar } from "./Taskbar";
 import { WindowManager } from "./WindowManager";
 import { DesktopIcon } from "./DesktopIcon";
 import { StartupScreen } from "./StartupScreen";
-import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings, Youtube, Music } from "lucide-react";
+import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings, Youtube, Music, FileSpreadsheet, PenTool } from "lucide-react";
 
 export const Desktop = () => {
   const [isStartup, setIsStartup] = useState(true);
@@ -15,6 +16,7 @@ export const Desktop = () => {
     app: string;
     title: string;
     isMinimized: boolean;
+    isMaximized: boolean;
     position: { x: number; y: number };
     size: { width: number; height: number };
   }>>([]);
@@ -26,6 +28,7 @@ export const Desktop = () => {
       app,
       title,
       isMinimized: false,
+      isMaximized: false,
       position: { x: 100 + windows.length * 50, y: 50 + windows.length * 30 },
       size: { width: 800, height: 600 }
     };
@@ -39,6 +42,17 @@ export const Desktop = () => {
   const minimizeWindow = (id: string) => {
     setWindows(prev => prev.map(w => 
       w.id === id ? { ...w, isMinimized: true } : w
+    ));
+  };
+
+  const maximizeWindow = (id: string) => {
+    setWindows(prev => prev.map(w => 
+      w.id === id ? { 
+        ...w, 
+        isMaximized: !w.isMaximized,
+        position: w.isMaximized ? w.position : { x: 0, y: 0 },
+        size: w.isMaximized ? w.size : { width: window.innerWidth, height: window.innerHeight - 48 }
+      } : w
     ));
   };
 
@@ -63,6 +77,8 @@ export const Desktop = () => {
     { name: "Files", icon: FolderOpen, app: "files" },
     { name: "Terminal", icon: Terminal, app: "terminal" },
     { name: "Text Editor", icon: FileText, app: "editor" },
+    { name: "Word Processor", icon: PenTool, app: "word" },
+    { name: "Spreadsheet", icon: FileSpreadsheet, app: "spreadsheet" },
     { name: "Calculator", icon: Calculator, app: "calculator" },
     { name: "Browser", icon: Globe, app: "browser" },
     { name: "YouTube", icon: Youtube, app: "youtube" },
@@ -126,6 +142,7 @@ export const Desktop = () => {
         windows={windows}
         onClose={closeWindow}
         onMinimize={minimizeWindow}
+        onMaximize={maximizeWindow}
         onUpdate={updateWindow}
         currentBackground={background}
         onBackgroundChange={handleBackgroundChange}

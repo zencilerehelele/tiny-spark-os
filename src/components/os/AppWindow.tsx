@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { X, Minus, Square } from "lucide-react";
+import { X, Minus, Square, Maximize } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Terminal } from "../apps/Terminal";
 import { FileManager } from "../apps/FileManager";
@@ -10,6 +10,8 @@ import { GameLibrary } from "../apps/GameLibrary";
 import { BackgroundChanger } from "./BackgroundChanger";
 import YouTube from "../apps/YouTube";
 import MusicPlayer from "../apps/MusicPlayer";
+import { WordProcessor } from "../apps/WordProcessor";
+import { Spreadsheet } from "../apps/Spreadsheet";
 
 interface Window {
   id: string;
@@ -24,12 +26,13 @@ interface AppWindowProps {
   window: Window;
   onClose: () => void;
   onMinimize: () => void;
+  onMaximize: () => void;
   onUpdate: (updates: Partial<Window>) => void;
   currentBackground: string;
   onBackgroundChange: (background: string, type: 'image' | 'color' | 'gradient') => void;
 }
 
-export const AppWindow = ({ window, onClose, onMinimize, onUpdate, currentBackground, onBackgroundChange }: AppWindowProps) => {
+export const AppWindow = ({ window, onClose, onMinimize, onMaximize, onUpdate, currentBackground, onBackgroundChange }: AppWindowProps) => {
   const [isDragging, setIsDragging] = useState(false);
   const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const windowRef = useRef<HTMLDivElement>(null);
@@ -86,6 +89,10 @@ export const AppWindow = ({ window, onClose, onMinimize, onUpdate, currentBackgr
         return <MusicPlayer />;
       case 'games':
         return <GameLibrary />;
+      case 'word':
+        return <WordProcessor />;
+      case 'spreadsheet':
+        return <Spreadsheet />;
       case 'settings':
         return <BackgroundChanger currentBackground={currentBackground} onBackgroundChange={onBackgroundChange} />;
       default:
@@ -125,8 +132,9 @@ export const AppWindow = ({ window, onClose, onMinimize, onUpdate, currentBackgr
             variant="ghost"
             size="sm"
             className="h-5 w-5 p-0 hover:bg-green-500/20"
+            onClick={onMaximize}
           >
-            <Square className="w-3 h-3" />
+            <Maximize className="w-3 h-3" />
           </Button>
           <Button
             variant="ghost"

@@ -30,7 +30,7 @@ export const Terminal = () => {
           "  uname     - System information",
           "  echo [text] - Echo text",
           "  openapp [app] - Open an application",
-          "    Available apps: browser, files, editor, calculator, music, youtube, games, settings",
+          "    Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings",
           ""
         ];
         break;
@@ -62,6 +62,8 @@ export const Terminal = () => {
             'browser': { app: 'browser', title: 'Browser' },
             'files': { app: 'files', title: 'Files' },
             'editor': { app: 'editor', title: 'Text Editor' },
+            'word': { app: 'word', title: 'Word Processor' },
+            'spreadsheet': { app: 'spreadsheet', title: 'Spreadsheet' },
             'calculator': { app: 'calculator', title: 'Calculator' },
             'music': { app: 'music', title: 'Music' },
             'youtube': { app: 'youtube', title: 'YouTube' },
@@ -75,7 +77,7 @@ export const Terminal = () => {
             }));
             output = [`Opening ${appMap[appName].title}...`, ""];
           } else {
-            output = [`Unknown app: ${appName}`, "Available apps: browser, files, editor, calculator, music, youtube, games, settings", ""];
+            output = [`Unknown app: ${appName}`, "Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings", ""];
           }
         } else if (cmd === "") {
           output = [""];
@@ -108,15 +110,19 @@ export const Terminal = () => {
 
   return (
     <div 
-      className="h-full bg-terminal-bg text-terminal-text font-mono text-sm p-4 overflow-auto"
+      className="h-full bg-black text-green-400 font-mono text-sm p-4 overflow-auto"
       ref={terminalRef}
       onClick={() => inputRef.current?.focus()}
+      style={{ fontFamily: 'monospace' }}
     >
       {commands.map((command, index) => (
         <div key={index}>
           {command.input && (
             <div className="flex">
-              <span className="text-terminal-prompt">user@tinyspark-midnight:~$ </span>
+              <span className="text-green-300">user@tinyspark-midnight</span>
+              <span className="text-white">:</span>
+              <span className="text-blue-400">~</span>
+              <span className="text-white">$ </span>
               <span>{command.input}</span>
             </div>
           )}
@@ -129,14 +135,17 @@ export const Terminal = () => {
       ))}
       
       <div className="flex">
-        <span className="text-terminal-prompt">user@tinyspark-midnight:~$ </span>
+        <span className="text-green-300">user@tinyspark-midnight</span>
+        <span className="text-white">:</span>
+        <span className="text-blue-400">~</span>
+        <span className="text-white">$ </span>
         <input
           ref={inputRef}
           type="text"
           value={currentInput}
           onChange={(e) => setCurrentInput(e.target.value)}
           onKeyPress={handleKeyPress}
-          className="flex-1 bg-transparent outline-none text-terminal-text"
+          className="flex-1 bg-transparent outline-none text-green-400"
           autoFocus
         />
       </div>

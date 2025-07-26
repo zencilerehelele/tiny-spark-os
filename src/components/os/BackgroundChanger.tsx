@@ -3,6 +3,7 @@ import { Monitor, Image, Palette } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import wallpaper from "@/assets/linux-wallpaper.jpg";
+import neonWallpaper from "@/assets/neon-city-wallpaper.jpg";
 
 interface BackgroundChangerProps {
   currentBackground: string;
@@ -12,6 +13,7 @@ interface BackgroundChangerProps {
 export const BackgroundChanger = ({ currentBackground, onBackgroundChange }: BackgroundChangerProps) => {
   const predefinedWallpapers = [
     { name: "Default Linux", url: wallpaper },
+    { name: "Neon City", url: neonWallpaper },
     { name: "Mountain Sunset", url: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)" },
     { name: "Ocean Blue", url: "linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)" },
     { name: "Forest Green", url: "linear-gradient(135deg, #55a3ff 0%, #003d82 100%)" }

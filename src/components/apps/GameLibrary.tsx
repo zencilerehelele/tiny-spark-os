@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Play, Star, Download, Gamepad2 } from "lucide-react";
+import { Play, Star, Download, Gamepad2, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { SnakeGame } from "./SnakeGame";
 
 interface Game {
   id: string;
@@ -15,6 +16,7 @@ interface Game {
 export const GameLibrary = () => {
   const [selectedGame, setSelectedGame] = useState<Game | null>(null);
   const [activeTab, setActiveTab] = useState<"library" | "store">("library");
+  const [playingGame, setPlayingGame] = useState<string | null>(null);
 
   const installedGames: Game[] = [
     {
@@ -63,6 +65,11 @@ export const GameLibrary = () => {
   ];
 
   const currentGames = activeTab === "library" ? installedGames : storeGames;
+
+  // Show Snake game when playing
+  if (playingGame === "1") {
+    return <SnakeGame onClose={() => setPlayingGame(null)} />;
+  }
 
   return (
     <div className="h-full flex bg-window">
@@ -136,7 +143,16 @@ export const GameLibrary = () => {
                 
                 <p className="text-sm text-muted-foreground mb-3">{game.description}</p>
                 
-                <Button size="sm" className="w-full">
+                <Button 
+                  size="sm" 
+                  className="w-full"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    if (game.installed && game.title === "Terminal Snake") {
+                      setPlayingGame(game.id);
+                    }
+                  }}
+                >
                   {game.installed ? (
                     <>
                       <Play className="w-3 h-3 mr-1" />
@@ -175,7 +191,14 @@ export const GameLibrary = () => {
               
               <p className="text-muted-foreground">{selectedGame.description}</p>
               
-              <Button className="w-full">
+              <Button 
+                className="w-full"
+                onClick={() => {
+                  if (selectedGame.installed && selectedGame.title === "Terminal Snake") {
+                    setPlayingGame(selectedGame.id);
+                  }
+                }}
+              >
                 {selectedGame.installed ? (
                   <>
                     <Play className="w-4 h-4 mr-2" />

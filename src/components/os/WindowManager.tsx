@@ -13,12 +13,13 @@ interface WindowManagerProps {
   windows: Window[];
   onClose: (id: string) => void;
   onMinimize: (id: string) => void;
+  onMaximize: (id: string) => void;
   onUpdate: (id: string, updates: Partial<Window>) => void;
   currentBackground: string;
   onBackgroundChange: (background: string, type: 'image' | 'color' | 'gradient') => void;
 }
 
-export const WindowManager = ({ windows, onClose, onMinimize, onUpdate, currentBackground, onBackgroundChange }: WindowManagerProps) => {
+export const WindowManager = ({ windows, onClose, onMinimize, onMaximize, onUpdate, currentBackground, onBackgroundChange }: WindowManagerProps) => {
   return (
     <>
       {windows.map(window => (
@@ -28,6 +29,7 @@ export const WindowManager = ({ windows, onClose, onMinimize, onUpdate, currentB
           window={window}
           onClose={() => onClose(window.id)}
           onMinimize={() => onMinimize(window.id)}
+          onMaximize={() => onMaximize(window.id)}
           onUpdate={(updates) => onUpdate(window.id, updates)}
           currentBackground={currentBackground}
           onBackgroundChange={onBackgroundChange}

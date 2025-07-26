@@ -16,14 +16,22 @@ const MusicPlayer = () => {
   const tracks = [
     {
       id: 1,
+      title: "Stronger",
+      artist: "Kanye West",
+      album: "Graduation",
+      duration: "5:11",
+      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // Placeholder audio
+    },
+    {
+      id: 2,
       title: "Ambient Dreams",
       artist: "Digital Composer",
       album: "Synthetic Melodies",
       duration: "4:32",
-      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // Placeholder - would need actual music files
+      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
     },
     {
-      id: 2,
+      id: 3,
       title: "Neon Nights",
       artist: "Synth Master",
       album: "Electric Vibes",
@@ -31,19 +39,11 @@ const MusicPlayer = () => {
       src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
     },
     {
-      id: 3,
+      id: 4,
       title: "Digital Rain",
       artist: "Code Symphony",
       album: "Programming Beats",
       duration: "5:12",
-      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
-    },
-    {
-      id: 4,
-      title: "Circuit Board",
-      artist: "Tech Harmonics",
-      album: "Binary Sounds",
-      duration: "4:18",
       src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
     }
   ];

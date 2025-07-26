@@ -3,6 +3,168 @@ import { ArrowLeft, ArrowRight, RotateCcw, Home, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
+const SearchPage = () => {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSearch = async () => {
+    if (!searchQuery.trim()) return;
+    
+    setIsLoading(true);
+    // Simulate search results
+    setTimeout(() => {
+      setSearchResults([
+        {
+          title: "TinySpark Midnight - Official Site",
+          url: "https://tinyspark.com",
+          description: "The latest version of TinySpark OS with enhanced features and modern design."
+        },
+        {
+          title: "Linux Mint - Community-driven Linux distribution",
+          url: "https://linuxmint.com",
+          description: "A modern, elegant and comfortable operating system which is both powerful and easy to use."
+        },
+        {
+          title: "React - A JavaScript library for building user interfaces",
+          url: "https://reactjs.org",
+          description: "React makes it painless to create interactive UIs."
+        }
+      ]);
+      setIsLoading(false);
+    }, 1000);
+  };
+
+  return (
+    <div className="p-8 space-y-6">
+      <div className="text-center space-y-4">
+        <h1 className="text-4xl font-bold text-os-primary">TinySparkSearch</h1>
+        <div className="max-w-2xl mx-auto flex gap-2">
+          <Input 
+            placeholder="Search the web..." 
+            className="text-center flex-1" 
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+          />
+          <Button onClick={handleSearch} disabled={isLoading}>
+            <Search className="w-4 h-4" />
+          </Button>
+        </div>
+      </div>
+      
+      {isLoading && (
+        <div className="text-center text-muted-foreground">Searching...</div>
+      )}
+      
+      {searchResults.length > 0 && (
+        <div className="max-w-4xl mx-auto space-y-4">
+          <div className="text-sm text-muted-foreground">About {searchResults.length} results</div>
+          {searchResults.map((result, index) => (
+            <div key={index} className="border-b border-border pb-4">
+              <h3 className="text-lg font-medium text-os-primary cursor-pointer hover:underline">
+                {result.title}
+              </h3>
+              <div className="text-sm text-green-600">{result.url}</div>
+              <p className="text-muted-foreground">{result.description}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
+const DocsPage = ({ onNavigate }: { onNavigate: (page: string) => void }) => {
+  const [selectedDoc, setSelectedDoc] = useState<string | null>(null);
+
+  const docs = {
+    "getting-started": {
+      title: "Getting Started with TinySpark Midnight",
+      content: `
+# Getting Started with TinySpark Midnight
+
+Welcome to TinySpark Midnight 2.0.0! This guide will help you get familiar with your new operating system.
+
+## Desktop Environment
+- **Desktop Icons**: Double-click any icon to open an application
+- **Draggable Icons**: You can drag icons around the desktop to organize them
+- **Taskbar**: Located at the bottom, shows running applications
+
+## Applications
+- **Terminal**: Access via desktop icon or taskbar. Supports Linux-like commands
+- **Browser**: Full web browsing with Google search integration
+- **Music Player**: Listen to your favorite tracks with full playback controls
+- **Game Library**: Play built-in games like Snake
+- **File Manager**: Navigate and manage your files
+- **Text Editor**: Create and edit documents
+- **Calculator**: Perform calculations
+- **YouTube**: Watch videos in a dedicated app
+
+## Terminal Commands
+- \`ls\` - List directory contents
+- \`pwd\` - Print working directory  
+- \`whoami\` - Show current user
+- \`date\` - Show current date and time
+- \`openapp [appname]\` - Open applications (browser, music, youtube, etc.)
+- \`help\` - Show all available commands
+
+## Window Management
+- **Minimize**: Click the minus button in the window title bar
+- **Maximize**: Click the square button to fullscreen
+- **Close**: Click the X button to close the window
+- **Drag**: Click and drag the title bar to move windows
+
+## Customization
+- **Backgrounds**: Use the Settings app to change your wallpaper
+- **Themes**: Dark and light mode support built-in
+
+Have fun exploring TinySpark Midnight!
+      `
+    }
+  };
+
+  if (selectedDoc && docs[selectedDoc as keyof typeof docs]) {
+    const doc = docs[selectedDoc as keyof typeof docs];
+    return (
+      <div className="p-8 space-y-6 max-w-4xl">
+        <Button variant="ghost" onClick={() => setSelectedDoc(null)}>
+          ← Back to Documentation
+        </Button>
+        <div>
+          <h1 className="text-2xl font-bold text-window-foreground mb-4">{doc.title}</h1>
+          <div className="prose prose-invert max-w-none">
+            <pre className="whitespace-pre-wrap text-sm leading-relaxed text-window-foreground">
+              {doc.content}
+            </pre>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="p-8 space-y-6">
+      <h1 className="text-2xl font-bold text-window-foreground">Documentation</h1>
+      <div className="space-y-4">
+        <section className="border border-border rounded-lg p-4 hover:bg-muted/50 cursor-pointer"
+                 onClick={() => setSelectedDoc("getting-started")}>
+          <h3 className="font-semibold text-window-foreground">Getting Started</h3>
+          <p className="text-sm text-muted-foreground">Learn how to use TinySpark Midnight 2.0.0</p>
+        </section>
+        <section className="border border-border rounded-lg p-4 hover:bg-muted/50 cursor-pointer">
+          <h3 className="font-semibold text-window-foreground">Terminal Commands</h3>
+          <p className="text-sm text-muted-foreground">Complete list of available commands</p>
+        </section>
+        <section className="border border-border rounded-lg p-4 hover:bg-muted/50 cursor-pointer">
+          <h3 className="font-semibold text-window-foreground">Application Guide</h3>
+          <p className="text-sm text-muted-foreground">How to use built-in applications</p>
+        </section>
+      </div>
+    </div>
+  );
+};
+
 export const Browser = () => {
   const [url, setUrl] = useState("https://www.example.com");
   const [currentPage, setCurrentPage] = useState("home");
@@ -41,14 +203,7 @@ export const Browser = () => {
     search: {
       title: "TinySpark Search",
       content: (
-        <div className="p-8 space-y-6">
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold text-os-primary">TinySparkSearch</h1>
-            <div className="max-w-md mx-auto">
-              <Input placeholder="Search the web..." className="text-center" />
-            </div>
-          </div>
-        </div>
+        <SearchPage />
       )
     },
     news: {
@@ -72,19 +227,7 @@ export const Browser = () => {
     docs: {
       title: "TinySpark Documentation",
       content: (
-        <div className="p-8 space-y-6">
-          <h1 className="text-2xl font-bold text-window-foreground">Documentation</h1>
-          <div className="space-y-4">
-            <section>
-              <h3 className="font-semibold text-window-foreground">Getting Started</h3>
-              <p className="text-sm text-muted-foreground">Learn how to use TinySpark</p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-window-foreground">Terminal Commands</h3>
-              <p className="text-sm text-muted-foreground">Complete list of available commands</p>
-            </section>
-          </div>
-        </div>
+        <DocsPage onNavigate={(page) => { setCurrentPage(page); setUrl(`https://docs.tinyspark.com/${page}`); }} />
       )
     },
     apps: {
