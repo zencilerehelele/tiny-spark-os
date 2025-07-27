@@ -3,7 +3,7 @@ import { ArrowLeft, ArrowRight, RotateCcw, Home, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-const SearchPage = () => {
+const SearchPage = ({ onNavigate }: { onNavigate: (url: string) => void }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchUrl, setSearchUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -14,6 +14,19 @@ const SearchPage = () => {
     // Load Google search results in iframe within the browser
     const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&igu=1`;
     setSearchUrl(googleSearchUrl);
+  };
+
+  const handleIframeLoad = (e: React.SyntheticEvent<HTMLIFrameElement>) => {
+    try {
+      const iframe = e.currentTarget;
+      const iframeUrl = iframe.contentWindow?.location.href;
+      if (iframeUrl && iframeUrl !== searchUrl && !iframeUrl.includes('google.com/search')) {
+        // User clicked on a search result link, navigate the main browser to that URL
+        onNavigate(iframeUrl);
+      }
+    } catch (error) {
+      // Cross-origin restrictions, ignore
+    }
   };
 
   return (
@@ -40,7 +53,8 @@ const SearchPage = () => {
             src={searchUrl}
             className="w-full h-full"
             title="Google Search Results"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+            onLoad={handleIframeLoad}
           />
         </div>
       ) : (
@@ -148,6 +162,11 @@ export const Browser = () => {
   const [url, setUrl] = useState("https://www.example.com");
   const [currentPage, setCurrentPage] = useState("home");
 
+  const handleNavigateToUrl = (newUrl: string) => {
+    setUrl(newUrl);
+    setCurrentPage("external");
+  };
+
   const pages = {
     home: {
       title: "TinySpark Browser - Home",
@@ -182,7 +201,7 @@ export const Browser = () => {
     search: {
       title: "TinySpark Search",
       content: (
-        <SearchPage />
+        <SearchPage onNavigate={handleNavigateToUrl} />
       )
     },
     news: {
@@ -226,6 +245,19 @@ export const Browser = () => {
               <Button size="sm" className="mt-2">Install</Button>
             </div>
           </div>
+        </div>
+      )
+    },
+    external: {
+      title: "External Website",
+      content: (
+        <div className="w-full h-full">
+          <iframe 
+            src={url}
+            className="w-full h-full border-0"
+            title="External Website"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+          />
         </div>
       )
     }
