@@ -5,15 +5,15 @@ import { Input } from "@/components/ui/input";
 
 const SearchPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [searchUrl, setSearchUrl] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleSearch = async () => {
     if (!searchQuery.trim()) return;
     
-    // Open Google search in a new window/tab
-    const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
-    window.open(googleSearchUrl, '_blank');
+    // Load Google search results in iframe within the browser
+    const googleSearchUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}&igu=1`;
+    setSearchUrl(googleSearchUrl);
   };
 
   return (
@@ -34,11 +34,22 @@ const SearchPage = () => {
         </div>
       </div>
       
-      <div className="max-w-4xl mx-auto space-y-4">
-        <div className="text-center text-muted-foreground">
-          Click search to open results in Google
+      {searchUrl ? (
+        <div className="w-full h-[600px] border border-border rounded-lg overflow-hidden">
+          <iframe 
+            src={searchUrl}
+            className="w-full h-full"
+            title="Google Search Results"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups"
+          />
         </div>
-      </div>
+      ) : (
+        <div className="max-w-4xl mx-auto space-y-4">
+          <div className="text-center text-muted-foreground">
+            Enter a search term above to search the web with Google
+          </div>
+        </div>
+      )}
     </div>
   );
 };
