@@ -53,7 +53,7 @@ const SearchPage = ({ onNavigate }: { onNavigate: (url: string) => void }) => {
             src={searchUrl}
             className="w-full h-full"
             title="Google Search Results"
-            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+            sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox"
             onLoad={handleIframeLoad}
           />
         </div>

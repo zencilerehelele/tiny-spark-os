@@ -51,8 +51,8 @@ export const Taskbar = ({ windows, onAppClick, onWindowRestore }: TaskbarProps) 
           className="h-8 px-3 text-panel-foreground hover:bg-os-primary/20"
           onClick={() => setShowAppMenu(!showAppMenu)}
         >
-          <div className="flex items-center justify-center w-6 h-6 bg-gradient-to-br from-blue-500 to-purple-600 rounded text-white text-xs font-bold">
-            TS
+          <div className="flex items-center justify-center w-6 h-6">
+            <img src="/src/assets/bear-footstep-logo.png" alt="Bear" className="w-6 h-6" />
           </div>
         </Button>
         

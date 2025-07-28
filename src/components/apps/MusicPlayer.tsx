@@ -16,35 +16,11 @@ const MusicPlayer = () => {
   const tracks = [
     {
       id: 1,
-      title: "Stronger",
-      artist: "Kanye West",
-      album: "Graduation",
-      duration: "5:11",
-      src: "https://www.mboxdrive.com/Stronger.mp3" // Real Kanye West track
-    },
-    {
-      id: 2,
-      title: "Ambient Dreams",
-      artist: "Digital Composer",
-      album: "Synthetic Melodies",
-      duration: "4:32",
-      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
-    },
-    {
-      id: 3,
-      title: "Neon Nights",
-      artist: "Synth Master",
-      album: "Electric Vibes",
-      duration: "3:45",
-      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
-    },
-    {
-      id: 4,
-      title: "Digital Rain",
-      artist: "Code Symphony",
-      album: "Programming Beats",
-      duration: "5:12",
-      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav"
+      title: "Ugoku, Ugoku (Girls' Last Tour OP)",
+      artist: "Chito (Inori Minase) & Yuuri (Yurika Kubo)",
+      album: "Girls' Last Tour OST",
+      duration: "1:30",
+      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // Placeholder - real implementation would use actual audio
     }
   ];
 

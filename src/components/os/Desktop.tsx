@@ -5,7 +5,8 @@ import { Taskbar } from "./Taskbar";
 import { WindowManager } from "./WindowManager";
 import { DesktopIcon } from "./DesktopIcon";
 import { StartupScreen } from "./StartupScreen";
-import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings, Youtube, Music, FileSpreadsheet, PenTool } from "lucide-react";
+import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings, Youtube, Music, FileSpreadsheet, PenTool, Palette, Plane, Download } from "lucide-react";
+import girlsLastTourWallpaper from "@/assets/girls-last-tour-wallpaper.jpg";
 
 export const Desktop = () => {
   const [isStartup, setIsStartup] = useState(true);
@@ -84,17 +85,28 @@ export const Desktop = () => {
     { name: "YouTube", icon: Youtube, app: "youtube" },
     { name: "Music", icon: Music, app: "music" },
     { name: "Games", icon: Gamepad2, app: "games" },
+    { name: "Drawing", icon: Palette, app: "draw" },
+    { name: "Flight Sim", icon: Plane, app: "flight" },
+    { name: "Wallpapers", icon: Download, app: "wallpaper" },
     { name: "Settings", icon: Settings, app: "settings" }
   ];
 
-  // Listen for terminal app open events
+  // Listen for terminal app open events and background changes
   React.useEffect(() => {
     const handleOpenApp = (event: CustomEvent) => {
       openApp(event.detail.app, event.detail.title);
     };
+
+    const handleChangeBackground = (event: CustomEvent) => {
+      handleBackgroundChange(event.detail.background, event.detail.type);
+    };
     
     window.addEventListener('openApp', handleOpenApp as EventListener);
-    return () => window.removeEventListener('openApp', handleOpenApp as EventListener);
+    window.addEventListener('changeBackground', handleChangeBackground as EventListener);
+    return () => {
+      window.removeEventListener('openApp', handleOpenApp as EventListener);
+      window.removeEventListener('changeBackground', handleChangeBackground as EventListener);
+    };
   }, []);
 
   const handleIconPositionChange = (iconName: string, position: { x: number; y: number }) => {

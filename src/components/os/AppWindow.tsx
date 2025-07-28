@@ -12,6 +12,9 @@ import YouTube from "../apps/YouTube";
 import MusicPlayer from "../apps/MusicPlayer";
 import { WordProcessor } from "../apps/WordProcessor";
 import { Spreadsheet } from "../apps/Spreadsheet";
+import { DrawingApp } from "../apps/DrawingApp";
+import { FlightSimulator } from "../apps/FlightSimulator";
+import { WallpaperDownloader } from "../apps/WallpaperDownloader";
 
 interface Window {
   id: string;
@@ -93,6 +96,12 @@ export const AppWindow = ({ window, onClose, onMinimize, onMaximize, onUpdate, c
         return <WordProcessor />;
       case 'spreadsheet':
         return <Spreadsheet />;
+      case 'draw':
+        return <DrawingApp />;
+      case 'flight':
+        return <FlightSimulator />;
+      case 'wallpaper':
+        return <WallpaperDownloader />;
       case 'settings':
         return <BackgroundChanger currentBackground={currentBackground} onBackgroundChange={onBackgroundChange} />;
       default:

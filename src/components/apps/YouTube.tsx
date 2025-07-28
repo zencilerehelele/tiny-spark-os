@@ -5,19 +5,28 @@ import { Input } from "@/components/ui/input";
 
 const YouTube = () => {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectedVideo, setSelectedVideo] = useState({
+    id: 1,
+    title: "Girls' Last Tour Opening - Ugoku, Ugoku",
+    channel: "Girls' Last Tour Official",
+    views: "2.1M views",
+    duration: "1:30",
+    thumbnail: "https://img.youtube.com/vi/nC9dQOnUyao/maxresdefault.jpg",
+    description: "Opening theme song 'Ugoku, Ugoku' from the anime Girls' Last Tour (Shoujo Shuumatsu Ryokou)",
+    videoSrc: "https://www.youtube.com/embed/nC9dQOnUyao"
+  });
   const [isPlaying, setIsPlaying] = useState(false);
 
   const videos = [
     {
       id: 1,
-      title: "TinySpark Midnight OS - Complete Overview & Demo",
-      channel: "TinySpark Official",
-      views: "5.2M views",
-      duration: "8:45",
-      thumbnail: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=320&h=180&fit=crop&crop=center",
-      description: "Experience the beauty and functionality of TinySpark Midnight OS. See all features including draggable icons, terminal commands, music player, and more!",
-      videoSrc: "https://sample-videos.com/zip/10/mp4/SampleVideo_1280x720_1mb.mp4"
+      title: "Girls' Last Tour Opening - Ugoku, Ugoku",
+      channel: "Girls' Last Tour Official",
+      views: "2.1M views",
+      duration: "1:30",
+      thumbnail: "https://img.youtube.com/vi/nC9dQOnUyao/maxresdefault.jpg",
+      description: "Opening theme song 'Ugoku, Ugoku' from the anime Girls' Last Tour (Shoujo Shuumatsu Ryokou)",
+      videoSrc: "https://www.youtube.com/embed/nC9dQOnUyao"
     },
     {
       id: 2,
@@ -26,7 +35,8 @@ const YouTube = () => {
       views: "2.1M views",
       duration: "3:24:15",
       thumbnail: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=320&h=180&fit=crop&crop=center",
-      description: "Perfect ambient music for deep work and focus sessions."
+      description: "Perfect ambient music for deep work and focus sessions.",
+      videoSrc: ""
     },
     {
       id: 3,
@@ -35,7 +45,8 @@ const YouTube = () => {
       views: "890K views",
       duration: "1:45:32",
       thumbnail: "https://images.unsplash.com/photo-1571330735066-03aaa9429d89?w=320&h=180&fit=crop&crop=center",
-      description: "Chill lo-fi beats perfect for programming sessions."
+      description: "Chill lo-fi beats perfect for programming sessions.",
+      videoSrc: ""
     },
     {
       id: 4,
@@ -44,7 +55,8 @@ const YouTube = () => {
       views: "3.5M views",
       duration: "2:15:45",
       thumbnail: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=320&h=180&fit=crop&crop=center",
-      description: "Relaxing forest rain sounds for meditation and sleep."
+      description: "Relaxing forest rain sounds for meditation and sleep.",
+      videoSrc: ""
     },
     {
       id: 5,
@@ -53,7 +65,8 @@ const YouTube = () => {
       views: "1.2M views",
       duration: "1:32:18",
       thumbnail: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=320&h=180&fit=crop&crop=center",
-      description: "Best synthwave and retrowave tracks compilation."
+      description: "Best synthwave and retrowave tracks compilation.",
+      videoSrc: ""
     }
   ];
 

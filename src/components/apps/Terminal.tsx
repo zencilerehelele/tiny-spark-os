@@ -20,9 +20,16 @@ export const Terminal = () => {
     switch (cmd) {
       case "help":
         output = [
+          "    ███   ███",
+          "  ███       ███", 
+          " ███         ███",
+          "  ███       ███",
+          "    ███   ███",
+          "      ███",
+          "",
           "Available commands:",
           "  help      - Show this help message",
-          "  ls        - List directory contents",
+          "  ls        - List directory contents", 
           "  pwd       - Print working directory",
           "  date      - Show current date and time",
           "  whoami    - Show current user",
@@ -30,7 +37,7 @@ export const Terminal = () => {
           "  uname     - System information",
           "  echo [text] - Echo text",
           "  openapp [app] - Open an application",
-          "    Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings",
+          "    Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper",
           ""
         ];
         break;
@@ -68,7 +75,10 @@ export const Terminal = () => {
             'music': { app: 'music', title: 'Music' },
             'youtube': { app: 'youtube', title: 'YouTube' },
             'games': { app: 'games', title: 'Games' },
-            'settings': { app: 'settings', title: 'Settings' }
+            'settings': { app: 'settings', title: 'Settings' },
+            'draw': { app: 'draw', title: 'Drawing App' },
+            'flight': { app: 'flight', title: 'Flight Simulator' },
+            'wallpaper': { app: 'wallpaper', title: 'Wallpaper Downloader' }
           };
           
           if (appMap[appName]) {
@@ -77,7 +87,7 @@ export const Terminal = () => {
             }));
             output = [`Opening ${appMap[appName].title}...`, ""];
           } else {
-            output = [`Unknown app: ${appName}`, "Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings", ""];
+            output = [`Unknown app: ${appName}`, "Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper", ""];
           }
         } else if (cmd === "") {
           output = [""];
@@ -119,8 +129,8 @@ export const Terminal = () => {
             <div className="w-3 h-3 rounded-full bg-green-500"></div>
           </div>
           <div className="flex items-center gap-2 ml-2">
-            <div className="flex items-center justify-center w-5 h-5 bg-gradient-to-br from-blue-500 to-purple-600 rounded text-white text-xs font-bold">
-              TS
+            <div className="flex items-center justify-center w-5 h-5">
+              <img src="/src/assets/bear-footstep-logo.png" alt="Bear" className="w-5 h-5" />
             </div>
             <span className="text-white text-sm font-medium">Terminal</span>
           </div>
