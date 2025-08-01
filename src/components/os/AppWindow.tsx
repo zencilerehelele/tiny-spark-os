@@ -13,8 +13,15 @@ import MusicPlayer from "../apps/MusicPlayer";
 import { WordProcessor } from "../apps/WordProcessor";
 import { Spreadsheet } from "../apps/Spreadsheet";
 import { DrawingApp } from "../apps/DrawingApp";
-import { FlightSimulator } from "../apps/FlightSimulator";
 import { WallpaperDownloader } from "../apps/WallpaperDownloader";
+import Firefox from "../apps/Firefox";
+import HotlineMiami from "../apps/HotlineMiami";
+import TaskManager from "../apps/TaskManager";
+import LibreOfficeWriter from "../apps/LibreOfficeWriter";
+import LibreOfficeCalc from "../apps/LibreOfficeCalc";
+import SpotifyApp from "../apps/SpotifyApp";
+import KaliTerminal from "../apps/KaliTerminal";
+import FileSystem from "../apps/FileSystem";
 
 interface Window {
   id: string;
@@ -77,29 +84,35 @@ export const AppWindow = ({ window, onClose, onMinimize, onMaximize, onUpdate, c
   const renderAppContent = () => {
     switch (window.app) {
       case 'terminal':
-        return <Terminal />;
+        return <KaliTerminal />;
       case 'files':
-        return <FileManager />;
+        return <FileSystem />;
       case 'editor':
         return <TextEditor />;
       case 'calculator':
         return <Calculator />;
       case 'browser':
-        return <Browser />;
+        return <Firefox />;
       case 'youtube':
         return <YouTube />;
       case 'music':
         return <MusicPlayer />;
       case 'games':
-        return <GameLibrary />;
+        return <HotlineMiami />;
       case 'word':
-        return <WordProcessor />;
+        return <LibreOfficeWriter />;
       case 'spreadsheet':
-        return <Spreadsheet />;
+        return <LibreOfficeCalc />;
       case 'draw':
         return <DrawingApp />;
-      case 'flight':
-        return <FlightSimulator />;
+      case 'taskmanager':
+        return <TaskManager />;
+      case 'spotify':
+        return <SpotifyApp />;
+      case 'writer':
+        return <LibreOfficeWriter />;
+      case 'calc':
+        return <LibreOfficeCalc />;
       case 'wallpaper':
         return <WallpaperDownloader />;
       case 'settings':
