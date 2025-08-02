@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import wallpaper from "@/assets/linux-wallpaper.jpg";
 import neonWallpaper from "@/assets/neon-city-wallpaper.jpg";
-import girlsLastTourWallpaper from "@/assets/girls-last-tour-wallpaper.jpg";
+import girlsLastTourWallpaper from "@/assets/girls-last-tour-real.jpg";
 import { Taskbar } from "./Taskbar";
 import { WindowManager } from "./WindowManager";
 import { DesktopIcon } from "./DesktopIcon";
