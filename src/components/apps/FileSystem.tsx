@@ -113,6 +113,74 @@ const FileSystem = () => {
     if (item.type === 'folder') {
       const newPath = currentPath === '/' ? `/${item.name}` : `${currentPath}/${item.name}`;
       navigateToPath(newPath);
+    } else {
+      openFile(item);
+    }
+  };
+
+  const openFile = (item: FileItem) => {
+    const ext = item.name.split('.').pop()?.toLowerCase();
+    
+    switch (ext) {
+      case 'txt':
+      case 'md':
+      case 'py':
+      case 'js':
+      case 'sh':
+      case 'c':
+        // Open text files in the text editor
+        const event = new CustomEvent('openApp', { 
+          detail: { app: 'editor', title: `Text Editor - ${item.name}` }
+        });
+        window.dispatchEvent(event);
+        break;
+        
+      case 'mp3':
+      case 'wav':
+      case 'flac':
+        // Open audio files in music player
+        const musicEvent = new CustomEvent('openApp', { 
+          detail: { app: 'spotify', title: `Music Player - ${item.name}` }
+        });
+        window.dispatchEvent(musicEvent);
+        break;
+        
+      case 'jpg':
+      case 'jpeg':
+      case 'png':
+      case 'gif':
+        // Show image preview (for now just open in text editor)
+        const imageEvent = new CustomEvent('openApp', { 
+          detail: { app: 'editor', title: `Image Viewer - ${item.name}` }
+        });
+        window.dispatchEvent(imageEvent);
+        break;
+        
+      case 'mp4':
+      case 'avi':
+      case 'mkv':
+        // Open video files
+        const videoEvent = new CustomEvent('openApp', { 
+          detail: { app: 'google-drive', title: `Video Player - ${item.name}` }
+        });
+        window.dispatchEvent(videoEvent);
+        break;
+        
+      case 'pdf':
+        // Open PDF files in Firefox
+        const pdfEvent = new CustomEvent('openApp', { 
+          detail: { app: 'firefox', title: `PDF Viewer - ${item.name}` }
+        });
+        window.dispatchEvent(pdfEvent);
+        break;
+        
+      default:
+        // Default: try to open in text editor
+        const defaultEvent = new CustomEvent('openApp', { 
+          detail: { app: 'editor', title: `Editor - ${item.name}` }
+        });
+        window.dispatchEvent(defaultEvent);
+        break;
     }
   };
 

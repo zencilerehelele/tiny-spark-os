@@ -130,7 +130,8 @@ const Firefox = () => {
           src={tabs.find(t => t.id === activeTabId)?.url}
           className="w-full h-full border-0"
           title="Firefox Browser"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox"
+          referrerPolicy="no-referrer-when-downgrade"
         />
       </div>
     </div>

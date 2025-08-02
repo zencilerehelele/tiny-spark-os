@@ -2,27 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Linux OS Design System - Dark theme with blue/teal accents */
+/* Ubuntu-inspired OS Design System - Dark theme with orange accents */
 
 @layer base {
   :root {
     /* OS Background & Surface */
-    --background: 220 15% 8%;
-    --foreground: 210 20% 88%;
+    --background: 220 15% 9%;
+    --foreground: 210 20% 90%;
     
     /* Desktop & Windows */
-    --desktop: 220 15% 6%;
-    --window: 220 12% 12%;
-    --window-foreground: 210 20% 88%;
+    --desktop: 220 15% 7%;
+    --window: 220 12% 13%;
+    --window-foreground: 210 20% 90%;
     
     /* Taskbar & Panels */
-    --panel: 220 15% 10%;
-    --panel-foreground: 210 20% 88%;
+    --panel: 220 15% 11%;
+    --panel-foreground: 210 20% 90%;
     
-    /* OS Blue Theme */
-    --os-primary: 200 100% 45%;
-    --os-primary-hover: 200 100% 50%;
-    --os-primary-foreground: 220 15% 8%;
+    /* Ubuntu Orange Theme */
+    --os-primary: 24 100% 55%;
+    --os-primary-hover: 24 100% 60%;
+    --os-primary-foreground: 220 15% 9%;
     
     /* Terminal Colors */
     --terminal-bg: 220 20% 5%;

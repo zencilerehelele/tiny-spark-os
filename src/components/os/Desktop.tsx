@@ -1,16 +1,16 @@
 import React, { useState } from "react";
 import wallpaper from "@/assets/linux-wallpaper.jpg";
 import neonWallpaper from "@/assets/neon-city-wallpaper.jpg";
+import girlsLastTourWallpaper from "@/assets/girls-last-tour-wallpaper.jpg";
 import { Taskbar } from "./Taskbar";
 import { WindowManager } from "./WindowManager";
 import { DesktopIcon } from "./DesktopIcon";
 import { StartupScreen } from "./StartupScreen";
 import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings, Youtube, Music, FileSpreadsheet, PenTool, Palette, Plane, Download } from "lucide-react";
-import girlsLastTourWallpaper from "@/assets/girls-last-tour-wallpaper.jpg";
 
 export const Desktop = () => {
   const [isStartup, setIsStartup] = useState(true);
-  const [background, setBackground] = useState(wallpaper);
+  const [background, setBackground] = useState(girlsLastTourWallpaper);
   const [backgroundType, setBackgroundType] = useState<'image' | 'color' | 'gradient'>('image');
   const [windows, setWindows] = useState<Array<{
     id: string;
@@ -75,18 +75,18 @@ export const Desktop = () => {
   };
 
   const desktopIcons = [
-    { name: "Files", icon: FolderOpen, app: "files" },
-    { name: "Terminal", icon: Terminal, app: "terminal" },
-    { name: "Text Editor", icon: FileText, app: "editor" },
-    { name: "Word Processor", icon: PenTool, app: "word" },
-    { name: "Spreadsheet", icon: FileSpreadsheet, app: "spreadsheet" },
+    { name: "Files", icon: FolderOpen, app: "filesystem" },
+    { name: "Terminal", icon: Terminal, app: "kali-terminal" },
+    { name: "Firefox", icon: Globe, app: "firefox" },
+    { name: "Spotify", icon: Music, app: "spotify" },
+    { name: "Hotline Spark", icon: Gamepad2, app: "hotline-miami" },
+    { name: "LibreOffice Writer", icon: PenTool, app: "libreoffice-writer" },
+    { name: "LibreOffice Calc", icon: FileSpreadsheet, app: "libreoffice-calc" },
+    { name: "Programming IDE", icon: FileText, app: "programming" },
+    { name: "Task Manager", icon: Settings, app: "task-manager" },
+    { name: "Google Drive", icon: Download, app: "google-drive" },
     { name: "Calculator", icon: Calculator, app: "calculator" },
-    { name: "Browser", icon: Globe, app: "browser" },
-    { name: "YouTube", icon: Youtube, app: "youtube" },
-    { name: "Music", icon: Music, app: "music" },
-    { name: "Games", icon: Gamepad2, app: "games" },
     { name: "Drawing", icon: Palette, app: "draw" },
-    { name: "Flight Sim", icon: Plane, app: "flight" },
     { name: "Wallpapers", icon: Download, app: "wallpaper" },
     { name: "Settings", icon: Settings, app: "settings" }
   ];
@@ -94,7 +94,12 @@ export const Desktop = () => {
   // Listen for terminal app open events and background changes
   React.useEffect(() => {
     const handleOpenApp = (event: CustomEvent) => {
-      openApp(event.detail.app, event.detail.title);
+      if (event.detail.app && event.detail.title) {
+        openApp(event.detail.app, event.detail.title);
+      } else if (typeof event.detail === 'string') {
+        // Legacy support for old format
+        openApp(event.detail, event.detail);
+      }
     };
 
     const handleChangeBackground = (event: CustomEvent) => {

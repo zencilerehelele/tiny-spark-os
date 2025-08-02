@@ -22,6 +22,8 @@ import LibreOfficeCalc from "../apps/LibreOfficeCalc";
 import SpotifyApp from "../apps/SpotifyApp";
 import KaliTerminal from "../apps/KaliTerminal";
 import FileSystem from "../apps/FileSystem";
+import ProgrammingApp from "../apps/ProgrammingApp";
+import GoogleDrive from "../apps/GoogleDrive";
 
 interface Window {
   id: string;
@@ -84,37 +86,49 @@ export const AppWindow = ({ window, onClose, onMinimize, onMaximize, onUpdate, c
   const renderAppContent = () => {
     switch (window.app) {
       case 'terminal':
+        return <Terminal />;
+      case 'kali-terminal':
         return <KaliTerminal />;
       case 'files':
+        return <FileManager />;
+      case 'filesystem':
         return <FileSystem />;
       case 'editor':
         return <TextEditor />;
       case 'calculator':
         return <Calculator />;
       case 'browser':
+        return <Browser />;
+      case 'firefox':
         return <Firefox />;
       case 'youtube':
         return <YouTube />;
       case 'music':
         return <MusicPlayer />;
-      case 'games':
-        return <HotlineMiami />;
-      case 'word':
-        return <LibreOfficeWriter />;
-      case 'spreadsheet':
-        return <LibreOfficeCalc />;
-      case 'draw':
-        return <DrawingApp />;
-      case 'taskmanager':
-        return <TaskManager />;
       case 'spotify':
         return <SpotifyApp />;
-      case 'writer':
+      case 'games':
+        return <GameLibrary />;
+      case 'hotline-miami':
+        return <HotlineMiami />;
+      case 'word':
+        return <WordProcessor />;
+      case 'libreoffice-writer':
         return <LibreOfficeWriter />;
-      case 'calc':
+      case 'spreadsheet':
+        return <Spreadsheet />;
+      case 'libreoffice-calc':
         return <LibreOfficeCalc />;
+      case 'programming':
+        return <ProgrammingApp />;
+      case 'task-manager':
+        return <TaskManager />;
+      case 'google-drive':
+        return <GoogleDrive />;
+      case 'draw':
+        return <DrawingApp />;
       case 'wallpaper':
-        return <WallpaperDownloader />;
+        return <WallpaperDownloader currentBackground={currentBackground} onBackgroundChange={onBackgroundChange} />;
       case 'settings':
         return <BackgroundChanger currentBackground={currentBackground} onBackgroundChange={onBackgroundChange} />;
       default:

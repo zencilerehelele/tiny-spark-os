@@ -181,9 +181,35 @@ Copyright 1998-2023 Gerald Combs <gerald@wireshark.org> and contributors.`;
 
       case 'openapp':
         if (args[0]) {
-          const event = new CustomEvent('openApp', { detail: args[0] });
-          window.dispatchEvent(event);
-          return `Opening ${args[0]}...`;
+          const appMap: { [key: string]: { app: string; title: string } } = {
+            'terminal': { app: 'kali-terminal', title: 'Terminal' },
+            'files': { app: 'filesystem', title: 'Files' },
+            'editor': { app: 'editor', title: 'Text Editor' },
+            'calculator': { app: 'calculator', title: 'Calculator' },
+            'firefox': { app: 'firefox', title: 'Firefox' },
+            'browser': { app: 'firefox', title: 'Firefox' },
+            'youtube': { app: 'youtube', title: 'YouTube' },
+            'spotify': { app: 'spotify', title: 'Spotify' },
+            'music': { app: 'spotify', title: 'Spotify' },
+            'games': { app: 'hotline-miami', title: 'Hotline Spark' },
+            'hotline': { app: 'hotline-miami', title: 'Hotline Spark' },
+            'writer': { app: 'libreoffice-writer', title: 'LibreOffice Writer' },
+            'calc': { app: 'libreoffice-calc', title: 'LibreOffice Calc' },
+            'programming': { app: 'programming', title: 'Programming IDE' },
+            'ide': { app: 'programming', title: 'Programming IDE' },
+            'tasks': { app: 'task-manager', title: 'Task Manager' },
+            'drive': { app: 'google-drive', title: 'Google Drive' },
+            'settings': { app: 'settings', title: 'Settings' }
+          };
+          
+          const appInfo = appMap[args[0].toLowerCase()];
+          if (appInfo) {
+            const event = new CustomEvent('openApp', { detail: appInfo });
+            window.dispatchEvent(event);
+            return `Opening ${appInfo.title}...`;
+          } else {
+            return `openapp: application '${args[0]}' not found\nAvailable apps: ${Object.keys(appMap).join(', ')}`;
+          }
         }
         return 'openapp: missing application name';
 

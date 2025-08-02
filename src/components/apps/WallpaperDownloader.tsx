@@ -13,7 +13,12 @@ interface Wallpaper {
   category: string;
 }
 
-export const WallpaperDownloader = () => {
+interface WallpaperDownloaderProps {
+  currentBackground?: string;
+  onBackgroundChange?: (background: string, type: 'image' | 'color' | 'gradient') => void;
+}
+
+export const WallpaperDownloader = ({ currentBackground, onBackgroundChange }: WallpaperDownloaderProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [wallpapers, setWallpapers] = useState<Wallpaper[]>([]);
   const [isLoading, setIsLoading] = useState(false);
