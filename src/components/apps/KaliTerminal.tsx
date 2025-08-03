@@ -147,37 +147,139 @@ openapp <name> - open application`;
 
       case 'nmap':
         if (!args[0]) return 'nmap: missing target specification';
-        return `Starting Nmap scan on ${args[0]}...
-Nmap scan report for ${args[0]}
+        const target = args[0];
+        return `Starting Nmap 7.94 ( https://nmap.org ) at ${new Date().toISOString().slice(0, 19)} UTC
+Nmap scan report for ${target}
 Host is up (0.00050s latency).
-PORT     STATE SERVICE
-22/tcp   open  ssh
-80/tcp   open  http
-443/tcp  open  https
-Nmap done: 1 IP address (1 host up) scanned in 2.15 seconds`;
+Not shown: 996 closed ports
+PORT     STATE SERVICE    VERSION
+21/tcp   open  ftp        vsftpd 3.0.3
+22/tcp   open  ssh        OpenSSH 8.2p1 Ubuntu 4ubuntu0.5
+53/tcp   open  domain     ISC BIND 9.16.1-Ubuntu
+80/tcp   open  http       Apache httpd 2.4.41 ((Ubuntu))
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page
+443/tcp  open  ssl/http   Apache httpd 2.4.41 ((Ubuntu))
+|_http-server-header: Apache/2.4.41 (Ubuntu)
+|_http-title: Apache2 Ubuntu Default Page
+8080/tcp open  http-proxy Squid http proxy 4.10
+|_http-server-header: squid/4.10
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 15.84 seconds`;
 
       case 'hydra':
+        if (!args[0] || !args[1]) {
+          return `Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak - Please do not use in military or secret service organizations, or for illegal purposes.
+
+Syntax: hydra [[[-l LOGIN|-L FILE] [-p PASS|-P FILE]] | [-C FILE]] [-e nsr] [-o FILE] [-t TASKS] [-M FILE [-T TASKS]] [-w TIME] [-W TIME] [-f] [-s PORT] [-x MIN:MAX:CHARSET] [-c TIME] [-ISOuvVd46] [-m MODULE_OPT] [service://server[:PORT][/OPT]]
+
+Example: hydra -l user -P passlist.txt 192.168.1.1 ssh`;
+        }
         return `Hydra v9.4 (c) 2022 by van Hauser/THC & David Maciejak
-Syntax: hydra [[[-l LOGIN|-L FILE] [-p PASS|-P FILE]] | [-C FILE]] [-e nsr] [-o FILE] [-t TASKS] [-M FILE [-T TASKS]] [-w TIME] [-W TIME] [-f] [-s PORT] [-x MIN:MAX:CHARSET] [-c TIME] [-ISOuvVd46] [-m MODULE_OPT] [service://server[:PORT][/OPT]]`;
+[INFO] Starting attack on ${args[0]}
+[DATA] max 16 tasks, attacking ssh://192.168.1.1:22/
+[ATTEMPT] target 192.168.1.1 - login "admin" - pass "123456" - 1 of 100 [child 0] (0/0)
+[ATTEMPT] target 192.168.1.1 - login "admin" - pass "password" - 2 of 100 [child 1] (0/0)
+[ATTEMPT] target 192.168.1.1 - login "admin" - pass "admin" - 3 of 100 [child 2] (0/0)
+[22][ssh] host: 192.168.1.1   login: admin   password: admin
+1 of 1 target successfully completed, 1 valid password found`;
 
       case 'john':
-        return `John the Ripper 1.9.0-jumbo-1+bleeding-aee1328d6c 2021-11-02 10:45:52 +0100 OMP [linux-gnu 64-bit x86_64 AVX2 AC]
-Usage: john [OPTIONS] [PASSWORD-FILES]`;
+        if (!args[0]) {
+          return `John the Ripper 1.9.0-jumbo-1+bleeding-aee1328d6c 2021-11-02 10:45:52 +0100 OMP [linux-gnu 64-bit x86_64 AVX2 AC]
+
+Usage: john [OPTIONS] [PASSWORD-FILES]
+       john --single [PASSWORD-FILES]
+       john --wordlist=FILE [PASSWORD-FILES]
+       john --incremental [PASSWORD-FILES]
+
+Example: john --wordlist=/usr/share/wordlists/rockyou.txt /etc/shadow`;
+        }
+        return `John the Ripper 1.9.0-jumbo-1+bleeding-aee1328d6c
+Loaded 3 password hashes with 3 different salts (sha512crypt, crypt(3) $6$ [SHA512 256/256 AVX2 4x])
+Will run 8 OpenMP threads
+Press 'q' or Ctrl-C to abort, almost any other key for status
+admin123         (user1)
+password1        (user2)
+letmein          (user3)
+3g 0:00:00:42 DONE (2024-01-15 14:23) 0.07g/s 1234p/s 1234c/s 1234C/s
+Use the "--show" option to display all of the cracked passwords reliably`;
 
       case 'sqlmap':
+        if (!args[0]) {
+          return `sqlmap/1.7.2#stable (http://sqlmap.org)
+
+Usage: python3 sqlmap.py [options]
+
+Example: sqlmap -u "http://example.com/page.php?id=1" --dbs`;
+        }
         return `sqlmap/1.7.2#stable (http://sqlmap.org)
-Usage: python3 sqlmap.py [options]`;
+
+[*] starting @ ${new Date().toTimeString().slice(0, 8)}
+[*] testing connection to the target URL
+[*] checking if the target is protected by some kind of WAF/IPS
+[*] testing if the parameter 'id' is dynamic
+[*] confirming that parameter 'id' is dynamic
+[*] parameter 'id' appears to be injectable
+[*] testing for SQL injection on parameter 'id'
+[*] the back-end DBMS is MySQL
+back-end DBMS: MySQL >= 5.0
+available databases [3]:
+[*] information_schema
+[*] mysql
+[*] testdb`;
 
       case 'metasploit':
-        return `metasploit v6.3.4-dev-
+        return `                                                  
+      .:okOOOkdc'           'cdkOOOko:.                                                                                                                         
+    .xOOOOOOOOOOOOc       cOOOOOOOOOOOOx.                                                                                                                     
+   :OOOOOOOOOOOOOOOk,   ,kOOOOOOOOOOOOOOO:                                                                                                                    
+  'OOOOOOOOOkkkkOOOOO: :OOOOOOOOOOOOOOOOOO'                                                                                                                   
+  oOOOOOOOO.MMMM.oOOOOoOOOOl.MMMM,OOOOOOOOo                                                                                                                   
+  dOOOOOOOO.MMMMMM.cOOOOOc.MMMMMM,OOOOOOOOx                                                                                                                   
+  lOOOOOOOO.MMMMMMMMM;d;MMMMMMMMM,OOOOOOOOl                                                                                                                   
+  .OOOOOOOO.MMM.;MMMMMMMMM;MMMM.,OOOOOOOO.                                                                                                                    
+   cOOOOOOO.MMM.OOc.MMMMM'oOO.MMM,OOOOOOOc                                                                                                                    
+    oOOOOOO.MMM.OOOO.MMM:OOOO.MMM,OOOOOOo                                                                                                                     
+     lOOOOO.MMM.OOOO.MMM:OOOO.MMM,OOOOOl                                                                                                                      
+      ;OOOO'MMM.OOOO.MMM:OOOO.MMM;OOOO;                                                                                                                       
+       .dOOo'WM.OOOOocccxOOOO.MX'xOOd.                                                                                                                        
+         ,kOl'M.OOOOOOOOOOOOO.M'dOk,                                                                                                                          
+           :kk;.OOOOOOOOOOOOO.;Od:                                                                                                                            
+             ;kOOOOOOOOOOOOOOOk:                                                                                                                              
+               ,xOOOOOOOOOOOx,                                                                                                                                
+                 .lOOOOOOOl.                                                                                                                                  
+                   ,dOd,                                                                                                                                      
+                     .                   
+
        =[ metasploit v6.3.4-dev-                          ]
 + -- --=[ 2296 exploits - 1202 auxiliary - 409 post       ]
 + -- --=[ 951 payloads - 45 encoders - 11 nops            ]
-+ -- --=[ 9 evasion                                        ]`;
++ -- --=[ 9 evasion                                        ]
+
+msf6 > use exploit/multi/handler
+[*] Using configured payload generic/shell_reverse_tcp
+msf6 exploit(multi/handler) > set LHOST 192.168.1.100
+LHOST => 192.168.1.100
+msf6 exploit(multi/handler) > set LPORT 4444
+LPORT => 4444
+msf6 exploit(multi/handler) > exploit
+
+[*] Started reverse TCP handler on 192.168.1.100:4444`;
 
       case 'wireshark':
         return `Wireshark 4.0.3 (Git v4.0.3 packaged as 4.0.3-1)
-Copyright 1998-2023 Gerald Combs <gerald@wireshark.org> and contributors.`;
+Copyright 1998-2023 Gerald Combs <gerald@wireshark.org> and contributors.
+
+Capturing on 'eth0'
+  1   0.000000 192.168.1.1  → 192.168.1.100 TCP 78 22 → 54321 [SYN] Seq=0 Win=29200 Len=0 MSS=1460 SACK_PERM=1
+  2   0.000123 192.168.1.100 → 192.168.1.1  TCP 74 54321 → 22 [SYN, ACK] Seq=0 Ack=1 Win=28960 Len=0 MSS=1460
+  3   0.000156 192.168.1.1  → 192.168.1.100 TCP 66 22 → 54321 [ACK] Seq=1 Ack=1 Win=29200 Len=0
+  4   0.234567 192.168.1.1  → 192.168.1.100 SSH 98 Client: Protocol (SSH-2.0-OpenSSH_8.2p1)
+  5   0.234890 192.168.1.100 → 192.168.1.1  SSH 98 Server: Protocol (SSH-2.0-OpenSSH_8.2p1)
+
+Use 'tshark' for command-line packet analysis
+Example: tshark -i eth0 -c 10`;
 
       case 'openapp':
         if (args[0]) {
@@ -186,12 +288,11 @@ Copyright 1998-2023 Gerald Combs <gerald@wireshark.org> and contributors.`;
             'files': { app: 'filesystem', title: 'Files' },
             'editor': { app: 'editor', title: 'Text Editor' },
             'calculator': { app: 'calculator', title: 'Calculator' },
-            'firefox': { app: 'firefox', title: 'Firefox' },
-            'browser': { app: 'firefox', title: 'Firefox' },
+            'firefox': { app: 'browser', title: 'Spark Browser' },
             'youtube': { app: 'youtube', title: 'YouTube' },
             'spotify': { app: 'spotify', title: 'Spotify' },
             'music': { app: 'spotify', title: 'Spotify' },
-            'minecraft': { app: 'minecraft', title: 'Minecraft PI' },
+            'doom': { app: 'doom', title: 'Doom Clone' },
             'games': { app: 'games', title: 'Game Library' },
             'writer': { app: 'libreoffice-writer', title: 'LibreOffice Writer' },
             'calc': { app: 'libreoffice-calc', title: 'LibreOffice Calc' },
@@ -199,6 +300,9 @@ Copyright 1998-2023 Gerald Combs <gerald@wireshark.org> and contributors.`;
             'ide': { app: 'programming', title: 'Programming IDE' },
             'tasks': { app: 'task-manager', title: 'Task Manager' },
             'drive': { app: 'google-drive', title: 'Google Drive' },
+            'tupack': { app: 'tupack', title: 'Tupack Package Manager' },
+            'bazaar': { app: 'bazaar', title: 'Bazaar App Store' },
+            'browser': { app: 'browser', title: 'Spark Browser' },
             'settings': { app: 'settings', title: 'Settings' }
           };
           

@@ -6,10 +6,12 @@ import { Taskbar } from "./Taskbar";
 import { WindowManager } from "./WindowManager";
 import { DesktopIcon } from "./DesktopIcon";
 import { StartupScreen } from "./StartupScreen";
+import SetupScreen from "../apps/SetupScreen";
 import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings, Youtube, Music, FileSpreadsheet, PenTool, Palette, Plane, Download } from "lucide-react";
 
 export const Desktop = () => {
   const [isStartup, setIsStartup] = useState(true);
+  const [isSetup, setIsSetup] = useState(false);
   const [background, setBackground] = useState(girlsLastTourWallpaper);
   const [backgroundType, setBackgroundType] = useState<'image' | 'color' | 'gradient'>('image');
   const [windows, setWindows] = useState<Array<{
@@ -77,9 +79,9 @@ export const Desktop = () => {
   const desktopIcons = [
     { name: "Files", icon: FolderOpen, app: "filesystem" },
     { name: "Terminal", icon: Terminal, app: "kali-terminal" },
-    { name: "Firefox", icon: Globe, app: "firefox" },
+    { name: "Spark Browser", icon: Globe, app: "browser" },
     { name: "Spotify", icon: Music, app: "spotify" },
-    { name: "Minecraft PI", icon: Gamepad2, app: "minecraft" },
+    { name: "Doom Clone", icon: Gamepad2, app: "doom" },
     { name: "LibreOffice Writer", icon: PenTool, app: "libreoffice-writer" },
     { name: "LibreOffice Calc", icon: FileSpreadsheet, app: "libreoffice-calc" },
     { name: "Programming IDE", icon: FileText, app: "programming" },
@@ -92,7 +94,9 @@ export const Desktop = () => {
     { name: "Games", icon: Gamepad2, app: "games" },
     { name: "Music Player", icon: Music, app: "music" },
     { name: "Spreadsheet", icon: FileSpreadsheet, app: "spreadsheet" },
-    { name: "Wallpapers", icon: Download, app: "wallpaper" }
+    { name: "Wallpapers", icon: Download, app: "wallpaper" },
+    { name: "Tupack", icon: Settings, app: "tupack" },
+    { name: "Bazaar", icon: Download, app: "bazaar" }
   ];
 
   // Listen for terminal app open events and background changes
@@ -126,7 +130,14 @@ export const Desktop = () => {
   };
 
   if (isStartup) {
-    return <StartupScreen onStartupComplete={() => setIsStartup(false)} />;
+    return <StartupScreen onStartupComplete={() => {
+      setIsStartup(false);
+      setIsSetup(true);
+    }} />;
+  }
+
+  if (isSetup) {
+    return <SetupScreen onSetupComplete={() => setIsSetup(false)} />;
   }
 
   return (
