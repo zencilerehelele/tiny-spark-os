@@ -130,12 +130,22 @@ const Firefox = () => {
           src={tabs.find(t => t.id === activeTabId)?.url}
           className="w-full h-full border-0"
           title="Firefox Browser"
-          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox"
+          sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation allow-popups-to-escape-sandbox allow-presentation"
           referrerPolicy="no-referrer-when-downgrade"
+          onLoad={() => {
+            const currentTab = tabs.find(t => t.id === activeTabId);
+            if (currentTab) {
+              setTabs(prev => prev.map(tab => 
+                tab.id === activeTabId 
+                  ? { ...tab, title: new URL(currentTab.url).hostname }
+                  : tab
+              ));
+            }
+          }}
         />
       </div>
     </div>
   );
 };
 
-export default Firefox;
+export { Firefox };

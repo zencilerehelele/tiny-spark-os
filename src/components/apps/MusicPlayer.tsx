@@ -16,11 +16,43 @@ const MusicPlayer = () => {
   const tracks = [
     {
       id: 1,
-      title: "Ugoku, Ugoku (Girls' Last Tour OP)",
-      artist: "Chito (Inori Minase) & Yuuri (Yurika Kubo)",
+      title: "Ugoku, Ugoku",
+      artist: "chito & yuuri",
       album: "Girls' Last Tour OST",
       duration: "1:30",
-      src: "https://www.soundjay.com/misc/sounds/bell-ringing-05.wav" // Placeholder - real implementation would use actual audio
+      src: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/WFMU/Broke_For_Free/Directionless_EP/Broke_For_Free_-_01_-_Night_Owl.mp3"
+    },
+    {
+      id: 2, 
+      title: "Lofi Hip Hop",
+      artist: "Chill Beats",
+      album: "Study Music",
+      duration: "3:45",
+      src: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/TRG_Banks/Oura/TRG_Banks_-_11_-_Never_Sleep.mp3"
+    },
+    {
+      id: 3,
+      title: "Relaxing Piano", 
+      artist: "Peaceful Melodies",
+      album: "Calm Sounds",
+      duration: "4:12",
+      src: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/Scott_Holmes/Inspiring__Upbeat_Music/Scott_Holmes_-_04_-_Upbeat_Party.mp3"
+    },
+    {
+      id: 4,
+      title: "Ambient Nature",
+      artist: "Forest Sounds",
+      album: "Natural Music", 
+      duration: "5:23",
+      src: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Chad_Crouch/Arps/Chad_Crouch_-_Shipping_Lanes.mp3"
+    },
+    {
+      id: 5,
+      title: "Electronic Dreams",
+      artist: "Synth Wave",
+      album: "Digital Nights",
+      duration: "3:56",
+      src: "https://files.freemusicarchive.org/storage-freemusicarchive-org/music/ccCommunity/Broke_For_Free/Directionless_EP/Broke_For_Free_-_04_-_As_Colorful_As_Ever.mp3"
     }
   ];
 

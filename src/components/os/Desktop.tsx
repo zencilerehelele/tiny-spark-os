@@ -79,7 +79,7 @@ export const Desktop = () => {
     { name: "Terminal", icon: Terminal, app: "kali-terminal" },
     { name: "Firefox", icon: Globe, app: "firefox" },
     { name: "Spotify", icon: Music, app: "spotify" },
-    { name: "Hotline Spark", icon: Gamepad2, app: "hotline-miami" },
+    { name: "Minecraft PI", icon: Gamepad2, app: "minecraft" },
     { name: "LibreOffice Writer", icon: PenTool, app: "libreoffice-writer" },
     { name: "LibreOffice Calc", icon: FileSpreadsheet, app: "libreoffice-calc" },
     { name: "Programming IDE", icon: FileText, app: "programming" },
@@ -87,8 +87,12 @@ export const Desktop = () => {
     { name: "Google Drive", icon: Download, app: "google-drive" },
     { name: "Calculator", icon: Calculator, app: "calculator" },
     { name: "Drawing", icon: Palette, app: "draw" },
-    { name: "Wallpapers", icon: Download, app: "wallpaper" },
-    { name: "Settings", icon: Settings, app: "settings" }
+    { name: "Text Editor", icon: FileText, app: "editor" },
+    { name: "YouTube", icon: Youtube, app: "youtube" },
+    { name: "Games", icon: Gamepad2, app: "games" },
+    { name: "Music Player", icon: Music, app: "music" },
+    { name: "Spreadsheet", icon: FileSpreadsheet, app: "spreadsheet" },
+    { name: "Wallpapers", icon: Download, app: "wallpaper" }
   ];
 
   // Listen for terminal app open events and background changes

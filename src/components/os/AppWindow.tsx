@@ -14,8 +14,8 @@ import { WordProcessor } from "../apps/WordProcessor";
 import { Spreadsheet } from "../apps/Spreadsheet";
 import { DrawingApp } from "../apps/DrawingApp";
 import { WallpaperDownloader } from "../apps/WallpaperDownloader";
-import Firefox from "../apps/Firefox";
-import HotlineMiami from "../apps/HotlineMiami";
+import { Firefox } from "../apps/Firefox";
+import { MinecraftPI } from "../apps/MinecraftPI";
 import TaskManager from "../apps/TaskManager";
 import LibreOfficeWriter from "../apps/LibreOfficeWriter";
 import LibreOfficeCalc from "../apps/LibreOfficeCalc";
@@ -24,6 +24,7 @@ import KaliTerminal from "../apps/KaliTerminal";
 import FileSystem from "../apps/FileSystem";
 import ProgrammingApp from "../apps/ProgrammingApp";
 import GoogleDrive from "../apps/GoogleDrive";
+import { SnakeGame } from "../apps/SnakeGame";
 
 interface Window {
   id: string;
@@ -109,8 +110,10 @@ export const AppWindow = ({ window, onClose, onMinimize, onMaximize, onUpdate, c
         return <SpotifyApp />;
       case 'games':
         return <GameLibrary />;
-      case 'hotline-miami':
-        return <HotlineMiami />;
+      case 'minecraft':
+        return <MinecraftPI />;
+      case 'snake':
+        return <SnakeGame onClose={() => {}} />;
       case 'word':
         return <WordProcessor />;
       case 'libreoffice-writer':
