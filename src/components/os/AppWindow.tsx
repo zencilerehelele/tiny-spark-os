@@ -5,7 +5,7 @@ import { Terminal } from "../apps/Terminal";
 import { FileManager } from "../apps/FileManager";
 import { TextEditor } from "../apps/TextEditor";
 import { Calculator } from "../apps/Calculator";
-import { Browser } from "../apps/Browser";
+import Browser from "../apps/Browser";
 import { GameLibrary } from "../apps/GameLibrary";
 import { BackgroundChanger } from "./BackgroundChanger";
 import YouTube from "../apps/YouTube";
