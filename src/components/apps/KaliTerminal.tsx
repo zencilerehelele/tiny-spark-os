@@ -12,6 +12,7 @@ const KaliTerminal = () => {
     { input: "", output: "Kali GNU/Linux Rolling kali 6.1.0-kali3-amd64\nLast login: " + new Date().toLocaleDateString() + " from 127.0.0.1" }
   ]);
   const [currentDir, setCurrentDir] = useState("/home/kali");
+  const [pipeAnimation, setPipeAnimation] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
 
@@ -281,6 +282,61 @@ Capturing on 'eth0'
 Use 'tshark' for command-line packet analysis
 Example: tshark -i eth0 -c 10`;
 
+      case 'neofetch':
+        const systemInfo = `
+     ⠀⠀⠀⠀⠀⠀⢠⡶⠒⠲⢦⡀⠀⠀⠀⠀⠀⠀⠀
+     ⠀⠀⠀⠀⠀⢀⡞⠁⠀⠀⠈⠳⡄⠀⠀⠀⠀⠀⠀
+     ⠀⠀⠀⠀⢀⡞⠁⠀⠀⠀⠀⠘⢧⠀⠀⠀⠀⠀⠀
+     ⠀⠀⠀⢀⡞⠁⠀⠀⠀⠀⠀⠀⠘⢧⠀⠀⠀⠀⠀
+     ⠀⠀⢠⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠘⢧⠀⠀⠀⠀
+     ⠀⢠⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢧⠀⠀⠀
+     ⢠⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢧⠀⠀
+     ⡞⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣇⠀
+     
+OS: ElementaryOS 7.1
+Host: SparkBook Pro
+Kernel: 6.2.0-spark
+Uptime: 2 hours, 34 mins
+Packages: 1847 (apt)
+Shell: bash 5.1.16
+Resolution: 1920x1080
+DE: Pantheon
+WM: Gala
+Theme: Elementary
+Icons: elementary
+Terminal: spark-terminal
+CPU: Intel i7-12700H (16) @ 4.7GHz
+GPU: NVIDIA GeForce RTX 3070
+Memory: 2847MiB / 16384MiB`;
+        return systemInfo;
+
+      case 'horsesays':
+        const jokes = [
+          "Why don't horses ever get tired? Because they always have stable energy!",
+          "What do you call a horse that likes to stay up late? A night-mare!",
+          "Why did the horse go to school? To become a little hoarse in knowledge!",
+          "What's a horse's favorite sport? Stable tennis!",
+          "Why don't horses make good comedians? Their jokes are always a bit horse!",
+          "What do you call a horse with wings? A pegasus... obviously!",
+          "Why did the horse break up with the pony? It was tired of the stable relationship!"
+        ];
+        const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
+        const horseArt = `
+        \\   ^__^
+         \\  (oo)\\_______
+            (__)\\       )\\/\\
+                ||----w |
+                ||     ||
+                
+${randomJoke}`;
+        return horseArt;
+
+      case 'pipes':
+        // Start pipe animation
+        setPipeAnimation(true);
+        setTimeout(() => setPipeAnimation(false), 10000); // Stop after 10 seconds
+        return "🔴 Starting pipe screensaver... (will stop in 10 seconds)";
+
       case 'openapp':
         if (args[0]) {
           const appMap: { [key: string]: { app: string; title: string } } = {
@@ -349,8 +405,38 @@ Example: tshark -i eth0 -c 10`;
       .replace(/\x1b\[0m/g, '</span>');
   };
 
+  const PipeAnimation = () => (
+    <div className="absolute inset-0 bg-black z-10 overflow-hidden">
+      {Array.from({ length: 20 }).map((_, i) => (
+        <div
+          key={i}
+          className={`absolute animate-pulse`}
+          style={{
+            left: `${Math.random() * 100}%`,
+            top: `${Math.random() * 100}%`,
+            width: '20px',
+            height: '2px',
+            backgroundColor: ['#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff00ff', '#00ffff'][Math.floor(Math.random() * 6)],
+            animation: `pipe-move-${i} ${2 + Math.random() * 3}s linear infinite`,
+            transform: `rotate(${Math.random() * 360}deg)`
+          }}
+        />
+      ))}
+      <style>
+        {Array.from({ length: 20 }).map((_, i) => `
+          @keyframes pipe-move-${i} {
+            0% { transform: translateX(0) translateY(0) rotate(${Math.random() * 360}deg); }
+            100% { transform: translateX(${Math.random() * 200 - 100}px) translateY(${Math.random() * 200 - 100}px) rotate(${Math.random() * 360}deg); }
+          }
+        `).join('')}
+      </style>
+    </div>
+  );
+
   return (
-    <div className="h-full bg-gray-900 text-green-400 font-mono text-sm flex flex-col">
+    <div className="h-full bg-gray-900 text-green-400 font-mono text-sm flex flex-col relative">
+      {pipeAnimation && <PipeAnimation />}
+      
       {/* Terminal Header */}
       <div className="flex items-center justify-between p-2 bg-gray-800 border-b border-gray-700">
         <div className="flex items-center gap-2">

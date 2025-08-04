@@ -1,12 +1,15 @@
-import { useState } from "react";
-import { Save, FileText, Bold, Italic, Underline } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Save, FileText, Bold, Italic, Underline, FolderOpen } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
+import { fileSystemStorage } from "../../utils/fileSystem";
 
 export const TextEditor = () => {
   const [content, setContent] = useState("Welcome to TinySpark Text Editor\n\nStart typing your document here...");
   const [filename, setFilename] = useState("untitled.txt");
   const [isModified, setIsModified] = useState(false);
+  const [currentPath, setCurrentPath] = useState("/Documents");
+  const [saveMessage, setSaveMessage] = useState("");
   const { toast } = useToast();
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -15,12 +18,36 @@ export const TextEditor = () => {
   };
 
   const handleSave = () => {
-    // Simulate saving
-    toast({
-      title: "File saved",
-      description: `${filename} has been saved successfully.`,
-    });
-    setIsModified(false);
+    const success = fileSystemStorage.saveFile(currentPath, filename, content);
+    if (success) {
+      setIsModified(false);
+      setSaveMessage(`Saved: ${filename}`);
+      toast({
+        title: "File saved",
+        description: `${filename} has been saved successfully.`,
+      });
+      setTimeout(() => setSaveMessage(""), 3000);
+    } else {
+      setSaveMessage("Error saving file");
+      setTimeout(() => setSaveMessage(""), 3000);
+    }
+  };
+
+  const handleLoad = () => {
+    const loadedContent = fileSystemStorage.loadFile(currentPath, filename);
+    if (loadedContent !== null) {
+      setContent(loadedContent);
+      setIsModified(false);
+      setSaveMessage(`Loaded: ${filename}`);
+      toast({
+        title: "File loaded",
+        description: `${filename} has been loaded successfully.`,
+      });
+      setTimeout(() => setSaveMessage(""), 3000);
+    } else {
+      setSaveMessage("File not found");
+      setTimeout(() => setSaveMessage(""), 3000);
+    }
   };
 
   const formatText = (format: string) => {
@@ -39,16 +66,37 @@ export const TextEditor = () => {
           <FileText className="w-4 h-4 text-os-primary" />
           <input
             type="text"
+            value={currentPath}
+            onChange={(e) => setCurrentPath(e.target.value)}
+            className="bg-transparent border-none outline-none text-xs w-24 text-muted-foreground"
+            placeholder="Path"
+          />
+          <span className="text-muted-foreground">/</span>
+          <input
+            type="text"
             value={filename}
             onChange={(e) => setFilename(e.target.value)}
             className="bg-transparent border-none outline-none text-sm font-medium min-w-0"
           />
           {isModified && <span className="text-xs text-muted-foreground">•</span>}
+          {saveMessage && (
+            <span className="text-xs text-muted-foreground">{saveMessage}</span>
+          )}
         </div>
         
         <div className="flex-1" />
         
         <div className="flex items-center gap-1">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleLoad}
+            className="h-7 px-2 text-green-600"
+          >
+            <FolderOpen className="w-3 h-3 mr-1" />
+            Load
+          </Button>
+          <div className="w-px h-4 bg-border mx-1" />
           <Button
             variant="ghost"
             size="sm"

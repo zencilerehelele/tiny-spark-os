@@ -65,8 +65,8 @@ const DoomClone = () => {
   };
 
   const takeDamage = () => {
-    if (Math.random() > 0.8) {
-      const damage = Math.floor(Math.random() * 20) + 5;
+    if (Math.random() > 0.85) {
+      const damage = Math.floor(Math.random() * 15) + 5;
       setPlayerHealth(prev => {
         const newHealth = Math.max(0, prev - damage);
         if (newHealth === 0) {
@@ -77,10 +77,24 @@ const DoomClone = () => {
     }
   };
 
+  const collectItem = () => {
+    if (Math.random() > 0.9) {
+      if (Math.random() > 0.5) {
+        setPlayerHealth(prev => Math.min(100, prev + 20));
+      } else {
+        setPlayerAmmo(prev => prev + 10);
+      }
+    }
+  };
+
   useEffect(() => {
     if (gameState === 'playing') {
-      const interval = setInterval(takeDamage, 2000);
-      return () => clearInterval(interval);
+      const damageInterval = setInterval(takeDamage, 2000);
+      const itemInterval = setInterval(collectItem, 3000);
+      return () => {
+        clearInterval(damageInterval);
+        clearInterval(itemInterval);
+      };
     }
   }, [gameState]);
 
@@ -161,11 +175,30 @@ const DoomClone = () => {
         {Array.from({ length: enemies }).map((_, i) => (
           <div
             key={i}
-            className="absolute w-6 h-6 bg-red-500 rounded animate-pulse"
+            className="absolute w-6 h-6 bg-red-500 rounded animate-pulse cursor-crosshair"
             style={{
               left: `${(i * 20 + 10) % 80 + 10}%`,
               top: `${(i * 15 + 20) % 60 + 20}%`,
               boxShadow: '0 0 15px #ef4444'
+            }}
+            onClick={() => {
+              if (playerAmmo > 0) {
+                setPlayerAmmo(prev => prev - 1);
+                setEnemies(prev => Math.max(0, prev - 1));
+              }
+            }}
+          />
+        ))}
+
+        {/* Items */}
+        {Array.from({ length: 3 }).map((_, i) => (
+          <div
+            key={i}
+            className="absolute w-4 h-4 bg-yellow-400 rounded-full animate-bounce"
+            style={{
+              left: `${(i * 25 + 15) % 70 + 15}%`,
+              top: `${(i * 30 + 25) % 50 + 30}%`,
+              boxShadow: '0 0 10px #fbbf24'
             }}
           />
         ))}

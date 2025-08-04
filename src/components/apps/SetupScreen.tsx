@@ -7,23 +7,9 @@ interface SetupScreenProps {
 
 const SetupScreen = ({ onSetupComplete }: SetupScreenProps) => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [selectedLanguage, setSelectedLanguage] = useState('');
   const [username, setUsername] = useState('');
 
-  const languages = [
-    { code: 'en', name: 'English', flag: '🇺🇸' },
-    { code: 'tr', name: 'Türkçe', flag: '🇹🇷' },
-    { code: 'de', name: 'Deutsch', flag: '🇩🇪' },
-    { code: 'ru', name: 'Русский', flag: '🇷🇺' },
-    { code: 'hi', name: 'हिन्दी', flag: '🇮🇳' }
-  ];
-
   const steps = [
-    {
-      title: "Welcome to ElementaryOS",
-      subtitle: "Choose your language",
-      icon: Globe
-    },
     {
       title: "Setup User Account",
       subtitle: "Create your username",
@@ -36,22 +22,17 @@ const SetupScreen = ({ onSetupComplete }: SetupScreenProps) => {
     }
   ];
 
-  const handleLanguageSelect = (langCode: string) => {
-    setSelectedLanguage(langCode);
-    setTimeout(() => setCurrentStep(1), 500);
-  };
-
   const handleUsernameSubmit = () => {
     if (username.trim()) {
-      setCurrentStep(2);
+      setCurrentStep(1);
       setTimeout(() => {
-        onSetupComplete({ language: selectedLanguage, username: username.trim() });
+        onSetupComplete({ language: 'en', username: username.trim() });
       }, 2000);
     }
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && currentStep === 1) {
+    if (e.key === 'Enter' && currentStep === 0) {
       handleUsernameSubmit();
     }
   };
@@ -74,21 +55,6 @@ const SetupScreen = ({ onSetupComplete }: SetupScreenProps) => {
         </div>
 
         {currentStep === 0 && (
-          <div className="space-y-3">
-            {languages.map((lang) => (
-              <button
-                key={lang.code}
-                onClick={() => handleLanguageSelect(lang.code)}
-                className="w-full p-4 bg-white/10 hover:bg-white/20 rounded-lg border border-white/20 transition-all duration-200 flex items-center gap-3 text-white hover:scale-105"
-              >
-                <span className="text-2xl">{lang.flag}</span>
-                <span className="font-medium">{lang.name}</span>
-              </button>
-            ))}
-          </div>
-        )}
-
-        {currentStep === 1 && (
           <div className="space-y-4">
             <div>
               <label className="block text-white/80 mb-2">Username</label>
@@ -112,7 +78,7 @@ const SetupScreen = ({ onSetupComplete }: SetupScreenProps) => {
           </div>
         )}
 
-        {currentStep === 2 && (
+        {currentStep === 1 && (
           <div className="text-center">
             <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
               <CheckCircle className="w-8 h-8 text-white" />

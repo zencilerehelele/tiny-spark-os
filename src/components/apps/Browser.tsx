@@ -123,14 +123,38 @@ const Browser = () => {
   );
 
   const renderExternalPage = () => (
-    <div className="h-full bg-white">
-      <iframe
-        ref={iframeRef}
-        src={url}
-        className="w-full h-full border-0"
-        title="Browser Content"
-        sandbox="allow-same-origin allow-scripts allow-forms allow-popups allow-popups-to-escape-sandbox"
-      />
+    <div className="h-full bg-white flex flex-col">
+      {url.includes('google.com/search') ? (
+        <div className="flex-1 p-8">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="text-2xl font-bold mb-4">Search Results</h2>
+            <div className="space-y-4">
+              <div className="border rounded-lg p-4">
+                <h3 className="text-blue-600 text-lg font-medium">Example Search Result</h3>
+                <p className="text-gray-600 mt-2">This is a simulated search result for demonstration purposes.</p>
+                <span className="text-green-600 text-sm">example.com</span>
+              </div>
+              <div className="border rounded-lg p-4">
+                <h3 className="text-blue-600 text-lg font-medium">Another Result</h3>
+                <p className="text-gray-600 mt-2">Another simulated search result with relevant information.</p>
+                <span className="text-green-600 text-sm">sample.org</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <div className="flex-1 flex items-center justify-center bg-gray-50">
+          <div className="text-center p-8">
+            <Globe className="w-16 h-16 mx-auto mb-4 text-gray-400" />
+            <h3 className="text-xl font-bold text-gray-800 mb-2">Website Preview</h3>
+            <p className="text-gray-600 mb-4">Simulated content for: {url}</p>
+            <div className="bg-white border rounded-lg p-6 max-w-md">
+              <h4 className="font-bold mb-2">Sample Website Content</h4>
+              <p className="text-sm text-gray-600">This is a simulated website view. In a real browser, you would see the actual website content here.</p>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 

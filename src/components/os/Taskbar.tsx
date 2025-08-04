@@ -47,39 +47,65 @@ export const Taskbar = ({ windows, onAppClick, onWindowRestore }: TaskbarProps) 
   );
 
   return (
-    <div className="absolute bottom-0 left-0 right-0 h-14 bg-gradient-to-r from-panel to-panel/90 backdrop-blur-md border-t border-border/50 flex items-center px-3 z-50 shadow-lg">
-      {/* App Menu Button */}
-      <div className="relative">
-        <Button
-          variant="ghost"
-          size="sm"
-          className="h-10 w-10 rounded-full text-panel-foreground hover:bg-os-primary/20 transition-all duration-200"
-          onClick={() => setShowAppMenu(!showAppMenu)}
-        >
-          <div className="flex items-center justify-center w-6 h-6">
-            <img src="/src/assets/spark-logo.png" alt="Spark" className="w-6 h-6" />
-          </div>
-        </Button>
+    <div className="absolute bottom-0 left-0 right-0 h-16 bg-gray-800/90 backdrop-blur-xl border-t border-gray-600/30 flex items-center justify-center px-4 z-50 shadow-2xl">
+      {/* Dock Container */}
+      <div className="flex items-center justify-center bg-gray-700/50 backdrop-blur-lg rounded-2xl px-4 py-2 border border-gray-600/30">
+        {/* App Icons */}
+        <div className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-12 w-12 rounded-xl text-white hover:bg-white/10 transition-all duration-200 hover:scale-110"
+            onClick={() => setShowAppMenu(!showAppMenu)}
+          >
+            <div className="flex items-center justify-center w-8 h-8">
+              <img src="/src/assets/spark-logo.png" alt="Spark" className="w-8 h-8 rounded-lg" />
+            </div>
+          </Button>
         
+          {/* Quick App Icons */}
+          {[
+            { name: "Terminal", icon: Terminal, app: "kali-terminal" },
+            { name: "Files", icon: FolderOpen, app: "filesystem" },
+            { name: "Firefox", icon: Globe, app: "firefox" },
+            { name: "Calculator", icon: Calculator, app: "calculator" },
+            { name: "Text Editor", icon: FileText, app: "editor" },
+            { name: "Games", icon: Gamepad2, app: "game-library" }
+          ].map(item => (
+            <Button
+              key={item.name}
+              variant="ghost"
+              size="sm"
+              className="h-12 w-12 rounded-xl text-white hover:bg-white/10 transition-all duration-200 hover:scale-110 group relative"
+              onClick={() => onAppClick(item.app, item.name)}
+            >
+              <item.icon className="w-6 h-6" />
+              <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                {item.name}
+              </div>
+            </Button>
+          ))}
+        </div>
+
         {showAppMenu && (
-          <div className="absolute bottom-full left-0 mb-3 bg-window/95 backdrop-blur-lg border border-border/50 rounded-lg shadow-2xl p-4 min-w-80 max-h-96 overflow-y-auto">
+          <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-4 bg-gray-800/95 backdrop-blur-lg border border-gray-600/50 rounded-2xl shadow-2xl p-4 min-w-80 max-h-96 overflow-y-auto">
             <div className="mb-4">
               <div className="flex items-center gap-2 mb-2">
-                <Search className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-window-foreground">Applications</span>
+                <Search className="w-4 h-4 text-gray-400" />
+                <span className="text-sm font-medium text-white">Applications</span>
               </div>
               <Input
                 placeholder="Search applications..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full bg-background/50"
+                className="w-full bg-gray-700/50 border-gray-600 text-white"
               />
             </div>
             <div className="grid grid-cols-2 gap-2">
               {filteredApps.map(item => (
                 <button
                   key={item.name}
-                  className="flex items-center gap-3 px-3 py-3 text-window-foreground hover:bg-os-primary/20 transition-all duration-200 rounded-lg text-left"
+                  className="flex items-center gap-3 px-3 py-3 text-white hover:bg-gray-700/50 transition-all duration-200 rounded-lg text-left"
                   onClick={() => {
                     onAppClick(item.app, item.name);
                     setShowAppMenu(false);
@@ -87,7 +113,7 @@ export const Taskbar = ({ windows, onAppClick, onWindowRestore }: TaskbarProps) 
                   }}
                 >
                   <div className="flex-shrink-0">
-                    <item.icon className="w-5 h-5 text-os-primary" />
+                    <item.icon className="w-5 h-5 text-blue-400" />
                   </div>
                   <span className="text-sm truncate">{item.name}</span>
                 </button>
@@ -97,39 +123,10 @@ export const Taskbar = ({ windows, onAppClick, onWindowRestore }: TaskbarProps) 
         )}
       </div>
 
-      {/* Window Buttons */}
-      <div className="flex-1 flex items-center gap-2 px-4">
-        {windows.map(window => (
-          <Button
-            key={window.id}
-            variant="ghost"
-            size="sm"
-            className={`
-              h-9 px-4 text-sm max-w-48 truncate rounded-lg transition-all duration-200
-              ${window.isMinimized 
-                ? 'text-muted-foreground bg-muted/30 hover:bg-muted/50' 
-                : 'text-panel-foreground bg-os-primary/15 hover:bg-os-primary/25 border border-os-primary/20'
-              }
-            `}
-            onClick={() => onWindowRestore(window.id)}
-          >
-            {window.title}
-          </Button>
-        ))}
-      </div>
-
-      {/* System Tray */}
-      <div className="flex items-center gap-3 text-panel-foreground">
-        <div className="flex items-center gap-2 bg-background/20 rounded-lg px-3 py-2">
-          <Clock className="w-4 h-4 text-os-primary" />
-          <div className="flex flex-col">
-            <span className="font-mono text-sm font-medium">
-              {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-            </span>
-            <span className="font-mono text-xs text-muted-foreground">
-              {currentTime.toLocaleDateString([], { month: 'short', day: 'numeric' })}
-            </span>
-          </div>
+      {/* Time Display */}
+      <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+        <div className="text-white text-sm font-medium">
+          {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
       </div>
     </div>
