@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Package, Download, Trash2, Search, RefreshCw, CheckCircle, AlertCircle } from "lucide-react";
+import { appStore, type InstalledApp } from "@/utils/appStore";
 
 const Tupack = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [installedPackages, setInstalledPackages] = useState<string[]>([
-    "firefox", "libreoffice", "spotify", "git", "nodejs", "python3"
-  ]);
+  const [installedApps, setInstalledApps] = useState<InstalledApp[]>([]);
   const [installing, setInstalling] = useState<string[]>([]);
+
+  useEffect(() => {
+    setInstalledApps(appStore.getInstalledApps());
+    const unsubscribe = appStore.subscribe(setInstalledApps);
+    return unsubscribe;
+  }, []);
 
   const availablePackages = [
     { name: "discord", description: "Voice and text chat for gamers", size: "85.2 MB", category: "Communication" },
@@ -29,13 +34,24 @@ const Tupack = () => {
   const installPackage = (packageName: string) => {
     setInstalling(prev => [...prev, packageName]);
     setTimeout(() => {
-      setInstalledPackages(prev => [...prev, packageName]);
+      // Create app object for installation
+      const newApp: InstalledApp = {
+        id: packageName,
+        name: packageName,
+        title: packageName,
+        app: packageName,
+        icon: 'Download',
+        size: availablePackages.find(p => p.name === packageName)?.size || '0 MB',
+        installedAt: new Date().toISOString()
+      };
+      
+      appStore.installApp(newApp);
       setInstalling(prev => prev.filter(p => p !== packageName));
     }, 2000 + Math.random() * 3000);
   };
 
-  const removePackage = (packageName: string) => {
-    setInstalledPackages(prev => prev.filter(p => p !== packageName));
+  const removePackage = (packageId: string) => {
+    appStore.removeApp(packageId);
   };
 
   return (
@@ -79,13 +95,16 @@ const Tupack = () => {
           </div>
 
           <div className="mt-6">
-            <h3 className="font-semibold text-gray-700 mb-2">Installed ({installedPackages.length})</h3>
+            <h3 className="font-semibold text-gray-700 mb-2">Installed ({installedApps.length})</h3>
             <div className="space-y-1 max-h-40 overflow-y-auto">
-              {installedPackages.slice(0, 10).map(pkg => (
-                <div key={pkg} className="flex items-center justify-between text-sm">
-                  <span className="text-gray-600">{pkg}</span>
+              {installedApps.slice(0, 10).map(app => (
+                <div key={app.id} className="flex items-center justify-between text-sm">
+                  <div>
+                    <div className="text-gray-600">{app.name}</div>
+                    <div className="text-xs text-gray-400">{app.size}</div>
+                  </div>
                   <button
-                    onClick={() => removePackage(pkg)}
+                    onClick={() => removePackage(app.id)}
                     className="text-red-500 hover:text-red-700"
                   >
                     <Trash2 className="w-3 h-3" />
@@ -108,7 +127,7 @@ const Tupack = () => {
 
           <div className="grid gap-4">
             {filteredPackages.map(pkg => {
-              const isInstalled = installedPackages.includes(pkg.name);
+              const isInstalled = installedApps.some(app => app.id === pkg.name);
               const isInstalling = installing.includes(pkg.name);
 
               return (

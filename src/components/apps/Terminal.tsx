@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { appStore } from "@/utils/appStore";
 
 interface Command {
   input: string;
@@ -37,6 +38,9 @@ export const Terminal = () => {
           "  uname     - System information",
           "  echo [text] - Echo text",
           "  openapp [app] - Open an application",
+          "  tupack [options] - Package manager",
+          "    tupack -l         - List installed packages",
+          "    tupack -r [app]   - Remove a package",
           "    Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper",
           ""
         ];
@@ -63,6 +67,34 @@ export const Terminal = () => {
       default:
         if (cmd.startsWith("echo ")) {
           output = [input.slice(5), ""];
+        } else if (cmd.startsWith("tupack ")) {
+          const tupackCmd = input.slice(7).trim();
+          if (tupackCmd === "-l" || tupackCmd === "--list") {
+            const installedApps = appStore.getInstalledApps();
+            output = [
+              "Installed packages:",
+              "===================",
+              ...installedApps.map(app => `${app.name.padEnd(20)} ${app.size.padStart(10)} (${app.id})`),
+              "",
+              `Total: ${installedApps.length} packages`
+            ];
+          } else if (tupackCmd.startsWith("-r ")) {
+            const appId = tupackCmd.slice(3).trim();
+            const success = appStore.removeApp(appId);
+            if (success) {
+              output = [`Successfully removed package: ${appId}`, ""];
+            } else {
+              output = [`Package not found or cannot be removed: ${appId}`, "Use 'tupack -l' to see installed packages", ""];
+            }
+          } else {
+            output = [
+              "Tupack Package Manager",
+              "Usage:",
+              "  tupack -l          List installed packages",
+              "  tupack -r [app]    Remove a package",
+              ""
+            ];
+          }
         } else if (cmd.startsWith("openapp ")) {
           const appName = input.slice(8).trim().toLowerCase();
           const appMap: { [key: string]: { app: string; title: string } } = {

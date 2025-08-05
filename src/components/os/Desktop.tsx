@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import wallpaper from "@/assets/linux-wallpaper.jpg";
 import neonWallpaper from "@/assets/neon-city-wallpaper.jpg";
 import girlsLastTourWallpaper from "@/assets/girls-last-tour-real.jpg";
@@ -8,6 +8,7 @@ import { DesktopIcon } from "./DesktopIcon";
 import { StartupScreen } from "./StartupScreen";
 import SetupScreen from "../apps/SetupScreen";
 import { FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, Settings, Youtube, Music, FileSpreadsheet, PenTool, Palette, Plane, Download } from "lucide-react";
+import { appStore, type InstalledApp } from "@/utils/appStore";
 
 export const Desktop = () => {
   const [isStartup, setIsStartup] = useState(true);
@@ -24,6 +25,7 @@ export const Desktop = () => {
     size: { width: number; height: number };
   }>>([]);
   const [iconPositions, setIconPositions] = useState<{ [key: string]: { x: number; y: number } }>({});
+  const [installedApps, setInstalledApps] = useState<InstalledApp[]>([]);
 
   const openApp = (app: string, title: string) => {
     const newWindow = {
@@ -76,28 +78,29 @@ export const Desktop = () => {
     setBackgroundType(type);
   };
 
-  const desktopIcons = [
-    { name: "Files", icon: FolderOpen, app: "filesystem" },
-    { name: "Terminal", icon: Terminal, app: "kali-terminal" },
-    { name: "Spark Browser", icon: Globe, app: "browser" },
-    { name: "Spotify", icon: Music, app: "spotify" },
-    { name: "Doom Clone", icon: Gamepad2, app: "doom" },
-    { name: "LibreOffice Writer", icon: PenTool, app: "libreoffice-writer" },
-    { name: "LibreOffice Calc", icon: FileSpreadsheet, app: "libreoffice-calc" },
-    { name: "Programming IDE", icon: FileText, app: "programming" },
-    { name: "Task Manager", icon: Settings, app: "task-manager" },
-    { name: "Google Drive", icon: Download, app: "google-drive" },
-    { name: "Calculator", icon: Calculator, app: "calculator" },
-    { name: "Drawing", icon: Palette, app: "draw" },
-    { name: "Text Editor", icon: FileText, app: "editor" },
-    { name: "YouTube", icon: Youtube, app: "youtube" },
-    { name: "Games", icon: Gamepad2, app: "games" },
-    { name: "Music Player", icon: Music, app: "music" },
-    { name: "Spreadsheet", icon: FileSpreadsheet, app: "spreadsheet" },
-    { name: "Wallpapers", icon: Download, app: "wallpaper" },
-    { name: "Tupack", icon: Settings, app: "tupack" },
-    { name: "Bazaar", icon: Download, app: "bazaar" }
-  ];
+  // Get icon mapping
+  const getIconComponent = (iconName: string) => {
+    const iconMap = {
+      FolderOpen, Terminal, FileText, Calculator, Globe, Gamepad2, 
+      Settings, Youtube, Music, FileSpreadsheet, PenTool, Palette, 
+      Plane, Download
+    };
+    return iconMap[iconName as keyof typeof iconMap] || Download;
+  };
+
+  // Convert installed apps to desktop icons
+  const desktopIcons = installedApps.map(app => ({
+    name: app.name,
+    icon: getIconComponent(app.icon),
+    app: app.app
+  }));
+
+  // Initialize installed apps and listen for app changes
+  useEffect(() => {
+    setInstalledApps(appStore.getInstalledApps());
+    const unsubscribe = appStore.subscribe(setInstalledApps);
+    return unsubscribe;
+  }, []);
 
   // Listen for terminal app open events and background changes
   React.useEffect(() => {
@@ -113,12 +116,24 @@ export const Desktop = () => {
     const handleChangeBackground = (event: CustomEvent) => {
       handleBackgroundChange(event.detail.background, event.detail.type);
     };
+
+    const handleAppInstalled = (event: CustomEvent) => {
+      // App icons will update automatically via the appStore subscription
+    };
+
+    const handleAppRemoved = (event: CustomEvent) => {
+      // App icons will update automatically via the appStore subscription
+    };
     
     window.addEventListener('openApp', handleOpenApp as EventListener);
     window.addEventListener('changeBackground', handleChangeBackground as EventListener);
+    window.addEventListener('appInstalled', handleAppInstalled as EventListener);
+    window.addEventListener('appRemoved', handleAppRemoved as EventListener);
     return () => {
       window.removeEventListener('openApp', handleOpenApp as EventListener);
       window.removeEventListener('changeBackground', handleChangeBackground as EventListener);
+      window.removeEventListener('appInstalled', handleAppInstalled as EventListener);
+      window.removeEventListener('appRemoved', handleAppRemoved as EventListener);
     };
   }, []);
 

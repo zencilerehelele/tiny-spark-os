@@ -1,10 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Store, Download, Star, Search, Filter, Gamepad2, Image, Music, Video, Code, BookOpen } from "lucide-react";
+import { appStore, type InstalledApp } from "@/utils/appStore";
 
 const Bazaar = () => {
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [downloading, setDownloading] = useState<string[]>([]);
+  const [installedApps, setInstalledApps] = useState<InstalledApp[]>([]);
+
+  useEffect(() => {
+    setInstalledApps(appStore.getInstalledApps());
+    const unsubscribe = appStore.subscribe(setInstalledApps);
+    return unsubscribe;
+  }, []);
 
   const categories = [
     { id: "all", name: "All", icon: Store },
@@ -117,12 +125,21 @@ const Bazaar = () => {
   const featuredApps = apps.filter(app => app.featured);
 
   const downloadApp = (appId: string, appName: string) => {
+    // Check if already installed
+    if (installedApps.some(app => app.id === appId)) {
+      return;
+    }
+
     setDownloading(prev => [...prev, appId]);
     
     // Simulate app opening after download
     setTimeout(() => {
       setDownloading(prev => prev.filter(id => id !== appId));
       
+      // Find the app in our apps array to get more details
+      const appData = apps.find(app => app.id === appId);
+      if (!appData) return;
+
       // Dispatch event to open the app
       const appMapping: { [key: string]: { app: string; title: string } } = {
         "doom-clone": { app: "doom", title: "Doom Clone" },
@@ -135,11 +152,24 @@ const Bazaar = () => {
         "math-tutor": { app: "math-tutor", title: "Math Tutor" }
       };
       
-      const appInfo = appMapping[appId];
-      if (appInfo) {
-        const event = new CustomEvent('openApp', { detail: appInfo });
-        window.dispatchEvent(event);
-      }
+      const mapping = appMapping[appId] || { app: appId, title: appName };
+      
+      // Install the app in the app store
+      const newApp: InstalledApp = {
+        id: appId,
+        name: appName,
+        title: mapping.title,
+        app: mapping.app,
+        icon: 'Download', // Default icon
+        size: appData.size,
+        installedAt: new Date().toISOString()
+      };
+      
+      appStore.installApp(newApp);
+      
+      // Also open the app
+      const event = new CustomEvent('openApp', { detail: mapping });
+      window.dispatchEvent(event);
     }, 3000);
   };
 
@@ -218,10 +248,12 @@ const Bazaar = () => {
                     </div>
                     <button
                       onClick={() => downloadApp(app.id, app.name)}
-                      disabled={downloading.includes(app.id)}
+                      disabled={downloading.includes(app.id) || installedApps.some(installed => installed.id === app.id)}
                       className="w-full bg-purple-600 text-white py-2 rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                     >
-                      {downloading.includes(app.id) ? (
+                      {installedApps.some(installed => installed.id === app.id) ? (
+                        "Installed"
+                      ) : downloading.includes(app.id) ? (
                         <>
                           <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                           Installing...
@@ -262,10 +294,12 @@ const Bazaar = () => {
                   </div>
                   <button
                     onClick={() => downloadApp(app.id, app.name)}
-                    disabled={downloading.includes(app.id)}
+                    disabled={downloading.includes(app.id) || installedApps.some(installed => installed.id === app.id)}
                     className="px-6 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                   >
-                    {downloading.includes(app.id) ? (
+                    {installedApps.some(installed => installed.id === app.id) ? (
+                      "Installed"
+                    ) : downloading.includes(app.id) ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
                         Installing...
