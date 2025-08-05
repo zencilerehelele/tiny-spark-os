@@ -25,6 +25,7 @@ import FileSystem from "../apps/FileSystem";
 import ProgrammingApp from "../apps/ProgrammingApp";
 import GoogleDrive from "../apps/GoogleDrive";
 import { SnakeGame } from "../apps/SnakeGame";
+import DoomClone from "../apps/DoomClone";
 
 interface Window {
   id: string;
@@ -130,10 +131,16 @@ export const AppWindow = ({ window, onClose, onMinimize, onMaximize, onUpdate, c
         return <GoogleDrive />;
       case 'draw':
         return <DrawingApp />;
+      case 'doom':
+        return <DoomClone />;
       case 'wallpaper':
         return <WallpaperDownloader currentBackground={currentBackground} onBackgroundChange={onBackgroundChange} />;
       case 'settings':
         return <BackgroundChanger currentBackground={currentBackground} onBackgroundChange={onBackgroundChange} />;
+      case 'tupack':
+        return <div className="p-4 text-window-foreground">Tupack - Package Manager (Coming Soon)</div>;
+      case 'bazaar':
+        return <div className="p-4 text-window-foreground">Bazaar - Software Store (Coming Soon)</div>;
       default:
         return <div className="p-4 text-window-foreground">App not found</div>;
     }
