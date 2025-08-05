@@ -18,10 +18,15 @@ export const Taskbar = ({ windows, onAppClick, onWindowRestore }: TaskbarProps) 
   const [showAppMenu, setShowAppMenu] = useState(false);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [searchQuery, setSearchQuery] = useState("");
+  const [batteryLevel, setBatteryLevel] = useState(85);
 
-  // Update time every second
+  // Update time every second and simulate battery drain
   React.useEffect(() => {
-    const timer = setInterval(() => setCurrentTime(new Date()), 1000);
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+      // Simulate slow battery drain
+      setBatteryLevel(prev => prev > 0 ? Math.max(0, prev - 0.01) : 85);
+    }, 1000);
     return () => clearInterval(timer);
   }, []);
 
@@ -39,6 +44,8 @@ export const Taskbar = ({ windows, onAppClick, onWindowRestore }: TaskbarProps) 
     { name: "Programming IDE", icon: FileText, app: "programming" },
     { name: "Task Manager", icon: Settings, app: "task-manager" },
     { name: "Google Drive", icon: FolderOpen, app: "google-drive" },
+    { name: "Bazaar", icon: Settings, app: "bazaar" },
+    { name: "Tupack", icon: Settings, app: "tupack" },
     { name: "Settings", icon: Settings, app: "settings" }
   ];
 
@@ -123,8 +130,20 @@ export const Taskbar = ({ windows, onAppClick, onWindowRestore }: TaskbarProps) 
         )}
       </div>
 
-      {/* Time Display */}
-      <div className="absolute right-4 top-1/2 transform -translate-y-1/2">
+      {/* Time and Battery Display */}
+      <div className="absolute right-4 top-1/2 transform -translate-y-1/2 flex items-center gap-3">
+        <div className="flex items-center gap-2 text-white text-sm">
+          <div className="flex items-center gap-1">
+            <div className={`w-6 h-3 border border-white/50 rounded-sm relative ${batteryLevel < 20 ? 'bg-red-500' : batteryLevel < 50 ? 'bg-yellow-500' : 'bg-green-500'}`}>
+              <div 
+                className="h-full bg-current rounded-sm transition-all duration-1000"
+                style={{ width: `${batteryLevel}%` }}
+              />
+              <div className="absolute -right-1 top-1/2 transform -translate-y-1/2 w-1 h-1.5 bg-white/50 rounded-r-sm" />
+            </div>
+            <span className="text-xs">{Math.round(batteryLevel)}%</span>
+          </div>
+        </div>
         <div className="text-white text-sm font-medium">
           {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
         </div>
