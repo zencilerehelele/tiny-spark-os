@@ -41,7 +41,12 @@ export const Terminal = () => {
           "  tupack [options] - Package manager",
           "    tupack -l         - List installed packages",
           "    tupack -r [app]   - Remove a package",
-          "    Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper",
+          "    tupack -i [app]   - Install a package from Bazaar",
+          "  bazaar           - Open package store",
+          "  render [engine]  - Test browser rendering engine",
+          "  netstat          - Show network connections",
+          "  jsinterp [code]  - Run JavaScript code",
+          "    Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper, planet-explorer, firefox, kali-terminal, programming, task-manager",
           ""
         ];
         break;
@@ -110,7 +115,12 @@ export const Terminal = () => {
             'settings': { app: 'settings', title: 'Settings' },
             'draw': { app: 'draw', title: 'Drawing App' },
             'flight': { app: 'flight', title: 'Flight Simulator' },
-            'wallpaper': { app: 'wallpaper', title: 'Wallpaper Downloader' }
+            'wallpaper': { app: 'wallpaper', title: 'Wallpaper Downloader' },
+            'planet-explorer': { app: 'planet-explorer', title: 'Planet Explorer' },
+            'firefox': { app: 'firefox', title: 'Firefox' },
+            'kali-terminal': { app: 'kali-terminal', title: 'Kali Terminal' },
+            'programming': { app: 'programming', title: 'Programming IDE' },
+            'task-manager': { app: 'task-manager', title: 'Task Manager' }
           };
           
           if (appMap[appName]) {
@@ -119,7 +129,44 @@ export const Terminal = () => {
             }));
             output = [`Opening ${appMap[appName].title}...`, ""];
           } else {
-            output = [`Unknown app: ${appName}`, "Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper", ""];
+            output = [`Unknown app: ${appName}`, "Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper, planet-explorer, firefox, kali-terminal, programming, task-manager", ""];
+          }
+        } else if (cmd === "bazaar") {
+          window.dispatchEvent(new CustomEvent('openApp', { 
+            detail: { app: 'bazaar', title: 'Bazaar Package Store' }
+          }));
+          output = ["Opening Bazaar Package Store...", ""];
+        } else if (cmd.startsWith("render ")) {
+          const engine = input.slice(7).trim();
+          output = [
+            `Browser Rendering Engine Test: ${engine}`,
+            "=================================",
+            "✓ HTML Parser initialized",
+            "✓ CSS Engine loaded",
+            "✓ JavaScript V8 engine ready",
+            "✓ DOM tree constructed",
+            "✓ Layout engine active",
+            `Rendering with ${engine} engine...`,
+            ""
+          ];
+        } else if (cmd === "netstat") {
+          output = [
+            "Active Network Connections:",
+            "============================",
+            "tcp  localhost:3000    ESTABLISHED  (Vite Dev Server)",
+            "tcp  cloudflare.com:443 ESTABLISHED  (CDN)",
+            "tcp  github.com:443     ESTABLISHED  (Git Repository)",
+            "udp  dns.google:53      ESTABLISHED  (DNS Resolution)",
+            "Total connections: 4",
+            ""
+          ];
+        } else if (cmd.startsWith("jsinterp ")) {
+          const code = input.slice(9).trim();
+          try {
+            const result = eval(code);
+            output = [`> ${code}`, `${result}`, ""];
+          } catch (error) {
+            output = [`> ${code}`, `Error: ${error.message}`, ""];
           }
         } else if (cmd === "") {
           output = [""];

@@ -25,9 +25,10 @@ import FileSystem from "../apps/FileSystem";
 import ProgrammingApp from "../apps/ProgrammingApp";
 import GoogleDrive from "../apps/GoogleDrive";
 import { SnakeGame } from "../apps/SnakeGame";
-import DoomClone from "../apps/DoomClone";
+import PlanetExplorationSimulator from "../apps/PlanetExplorationSimulator";
 import Bazaar from "../apps/Bazaar";
 import Tupack from "../apps/Tupack";
+import BrowserEngine from "../apps/BrowserEngine";
 
 interface Window {
   id: string;
@@ -133,8 +134,8 @@ export const AppWindow = ({ window, onClose, onMinimize, onMaximize, onUpdate, c
         return <GoogleDrive />;
       case 'draw':
         return <DrawingApp />;
-      case 'doom':
-        return <DoomClone />;
+      case 'planet-explorer':
+        return <PlanetExplorationSimulator />;
       case 'wallpaper':
         return <WallpaperDownloader currentBackground={currentBackground} onBackgroundChange={onBackgroundChange} />;
       case 'settings':
@@ -143,6 +144,8 @@ export const AppWindow = ({ window, onClose, onMinimize, onMaximize, onUpdate, c
         return <Tupack />;
       case 'bazaar':
         return <Bazaar />;
+      case 'browser-engine':
+        return <BrowserEngine />;
       default:
         return <div className="p-4 text-window-foreground">App not found</div>;
     }
