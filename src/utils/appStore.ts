@@ -19,7 +19,6 @@ class AppStore {
     if (stored) {
       this.installedApps = JSON.parse(stored);
     } else {
-      // Default installed apps
       this.installedApps = [
         { id: 'browser', name: 'Spark Browser', title: 'Spark Browser', app: 'browser', icon: 'Globe', size: '45.2 MB', installedAt: new Date().toISOString() },
         { id: 'files', name: 'Files', title: 'Files', app: 'filesystem', icon: 'FolderOpen', size: '23.1 MB', installedAt: new Date().toISOString() },
@@ -27,6 +26,8 @@ class AppStore {
         { id: 'calculator', name: 'Calculator', title: 'Calculator', app: 'calculator', icon: 'Calculator', size: '8.5 MB', installedAt: new Date().toISOString() },
         { id: 'editor', name: 'Text Editor', title: 'Text Editor', app: 'editor', icon: 'FileText', size: '15.2 MB', installedAt: new Date().toISOString() },
         { id: 'music', name: 'Music Player', title: 'Music Player', app: 'music', icon: 'Music', size: '32.4 MB', installedAt: new Date().toISOString() },
+        { id: 'games', name: 'Games', title: 'Games', app: 'games', icon: 'Gamepad2', size: '50.0 MB', installedAt: new Date().toISOString() },
+        { id: 'wallpaper', name: 'Wallpaper Downloader', title: 'Wallpaper Downloader', app: 'wallpaper', icon: 'Palette', size: '10.5 MB', installedAt: new Date().toISOString() },
         { id: 'tupack', name: 'Tupack', title: 'Tupack', app: 'tupack', icon: 'Settings', size: '18.7 MB', installedAt: new Date().toISOString() },
         { id: 'bazaar', name: 'Bazaar', title: 'Bazaar', app: 'bazaar', icon: 'Download', size: '25.6 MB', installedAt: new Date().toISOString() }
       ];

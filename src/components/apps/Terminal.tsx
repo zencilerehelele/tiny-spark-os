@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { appStore } from "@/utils/appStore";
+import girlsEaster from "@/assets/girls-last-tour-wallpaper.jpg";
 
 interface Command {
   input: string;
@@ -13,39 +14,44 @@ export const Terminal = () => {
   const [currentInput, setCurrentInput] = useState("");
   const inputRef = useRef<HTMLInputElement>(null);
   const terminalRef = useRef<HTMLDivElement>(null);
+  const [asciiVariant, setAsciiVariant] = useState(1);
 
   const executeCommand = (input: string) => {
     const cmd = input.trim().toLowerCase();
+    const normalized = cmd.replaceAll("ı", "i"); // handle Turkish dotless i for "ascıı-*"
     let output: string[] = [];
 
     switch (cmd) {
       case "help":
         output = [
           "    ███   ███",
-          "  ███       ███", 
+          "  ███       ███",
           " ███         ███",
           "  ███       ███",
           "    ███   ███",
           "      ███",
           "",
           "Available commands:",
-          "  help      - Show this help message",
-          "  ls        - List directory contents", 
-          "  pwd       - Print working directory",
-          "  date      - Show current date and time",
-          "  whoami    - Show current user",
-          "  clear     - Clear terminal",
-          "  uname     - System information",
-          "  echo [text] - Echo text",
-          "  openapp [app] - Open an application",
-          "  tupack [options] - Package manager",
+          "  help               - Show this help message",
+          "  ls                 - List directory contents",
+          "  pwd                - Print working directory",
+          "  date               - Show current date and time",
+          "  whoami             - Show current user",
+          "  clear              - Clear terminal",
+          "  uname              - System information",
+          "  neofetch           - Show system info with ASCII art",
+          "  ascii-[1-4]        - Switch neofetch ASCII art (ascıı-[1-4] also works)",
+          "  echo [text]        - Echo text",
+          "  openapp [app]      - Open an application",
+          "  tupack [options]   - Package manager",
           "    tupack -l         - List installed packages",
           "    tupack -r [app]   - Remove a package",
           "    tupack -i [app]   - Install a package from Bazaar",
-          "  bazaar           - Open package store",
-          "  render [engine]  - Test browser rendering engine",
-          "  netstat          - Show network connections",
-          "  jsinterp [code]  - Run JavaScript code",
+          "  bazaar             - Open package store",
+          "  render [engine]    - Test browser rendering engine",
+          "  netstat            - Show network connections",
+          "  jsinterp [code]    - Run JavaScript code",
+          "  easteregglmao      - Surprise wallpaper",
           "    Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper, planet-explorer, firefox, kali-terminal, programming, task-manager",
           ""
         ];
@@ -69,10 +75,66 @@ export const Terminal = () => {
       case "uname":
         output = ["TinySpark Midnight 2.0.0", ""];
         break;
-      default:
-        if (cmd.startsWith("echo ")) {
+      case "neofetch": {
+        const ascii1 = [
+          "      ____",
+          "     / __ \",
+          "    / / / /",
+          "   / /_/ /",
+          "  /_____/.ts",
+          "  TinySpark",
+        ];
+        const ascii2 = [
+          "   __ _  _",
+          "  / _` || |",
+          " | (_| || |",
+          "  \\__,_||_|",
+        ];
+        const ascii3 = [
+          "  .-" + "-".repeat(6) + "-.",
+          " (  TS OS )",
+          "  `-" + "-".repeat(6) + "-'",
+        ];
+        const ascii4 = [
+          "  ████████",
+          "  ██    ██",
+          "  ██▗▖▗▖██",
+          "  ██▝▘▝▘██",
+          "  ████████",
+        ];
+        const maps: Record<number, string[]> = { 1: ascii1, 2: ascii2, 3: ascii3, 4: ascii4 };
+        const art = maps[asciiVariant] || ascii1;
+        output = [
+          ...art,
+          "",
+          "TinySpark Midnight 2.0.0",
+          "OS: TinySpark OS",
+          "Kernel: 5.10.0-ts",
+          "Shell: ts-term",
+          `ASCII: variant ${asciiVariant}`,
+          ""
+        ];
+        break;
+      }
+      case "easteregglmao":
+        window.dispatchEvent(new CustomEvent('changeBackground', { detail: { background: girlsEaster, type: 'image' } }));
+        output = ["Easter egg activated! Wallpaper changed to Girls' Last Tour.", ""];
+        break;
+      default: {
+        // ASCII art selector (supports ascıı-[1-4])
+        if (normalized.startsWith("ascii-")) {
+          const variant = parseInt(normalized.split('-')[1], 10);
+          if (variant >= 1 && variant <= 4) {
+            setAsciiVariant(variant);
+            output = [`ASCII art set to variant ${variant}.`, "Run 'neofetch' to view.", ""];
+          } else {
+            output = ["Usage: ascii-1 | ascii-2 | ascii-3 | ascii-4", ""];
+          }
+        }
+        else if (normalized.startsWith("echo ")) {
           output = [input.slice(5), ""];
-        } else if (cmd.startsWith("tupack ")) {
+        }
+        else if (normalized.startsWith("tupack ")) {
           const tupackCmd = input.slice(7).trim();
           if (tupackCmd === "-l" || tupackCmd === "--list") {
             const installedApps = appStore.getInstalledApps();
@@ -91,16 +153,37 @@ export const Terminal = () => {
             } else {
               output = [`Package not found or cannot be removed: ${appId}`, "Use 'tupack -l' to see installed packages", ""];
             }
+          } else if (tupackCmd.startsWith("-i ")) {
+            const id = tupackCmd.slice(3).trim();
+            // Simulate install from Bazaar: minimal metadata
+            const success = appStore.installApp({
+              id,
+              name: id.charAt(0).toUpperCase() + id.slice(1),
+              title: id.charAt(0).toUpperCase() + id.slice(1),
+              app: id,
+              icon: "Download",
+              size: "~20 MB",
+              installedAt: new Date().toISOString()
+            } as any);
+            output = success
+              ? [`Installed package: ${id}`, "It will appear on your desktop.", ""]
+              : [
+                  `Package already installed or invalid: ${id}`,
+                  "Use 'tupack -l' to list installed apps or open Bazaar to browse.",
+                  ""
+                ];
           } else {
             output = [
               "Tupack Package Manager",
               "Usage:",
               "  tupack -l          List installed packages",
               "  tupack -r [app]    Remove a package",
+              "  tupack -i [app]    Install a package from Bazaar",
               ""
             ];
           }
-        } else if (cmd.startsWith("openapp ")) {
+        }
+        else if (normalized.startsWith("openapp ")) {
           const appName = input.slice(8).trim().toLowerCase();
           const appMap: { [key: string]: { app: string; title: string } } = {
             'browser': { app: 'browser', title: 'Browser' },
@@ -122,21 +205,22 @@ export const Terminal = () => {
             'programming': { app: 'programming', title: 'Programming IDE' },
             'task-manager': { app: 'task-manager', title: 'Task Manager' }
           };
-          
           if (appMap[appName]) {
-            window.dispatchEvent(new CustomEvent('openApp', { 
-              detail: appMap[appName]
-            }));
+            window.dispatchEvent(new CustomEvent('openApp', { detail: appMap[appName] }));
             output = [`Opening ${appMap[appName].title}...`, ""];
           } else {
-            output = [`Unknown app: ${appName}`, "Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper, planet-explorer, firefox, kali-terminal, programming, task-manager", ""];
+            output = [
+              `Unknown app: ${appName}`,
+              "Available apps: browser, files, editor, word, spreadsheet, calculator, music, youtube, games, settings, draw, flight, wallpaper, planet-explorer, firefox, kali-terminal, programming, task-manager",
+              ""
+            ];
           }
-        } else if (cmd === "bazaar") {
-          window.dispatchEvent(new CustomEvent('openApp', { 
-            detail: { app: 'bazaar', title: 'Bazaar Package Store' }
-          }));
+        }
+        else if (cmd === "bazaar") {
+          window.dispatchEvent(new CustomEvent('openApp', { detail: { app: 'bazaar', title: 'Bazaar Package Store' } }));
           output = ["Opening Bazaar Package Store...", ""];
-        } else if (cmd.startsWith("render ")) {
+        }
+        else if (cmd.startsWith("render ")) {
           const engine = input.slice(7).trim();
           output = [
             `Browser Rendering Engine Test: ${engine}`,
@@ -149,7 +233,8 @@ export const Terminal = () => {
             `Rendering with ${engine} engine...`,
             ""
           ];
-        } else if (cmd === "netstat") {
+        }
+        else if (cmd === "netstat") {
           output = [
             "Active Network Connections:",
             "============================",
@@ -160,19 +245,25 @@ export const Terminal = () => {
             "Total connections: 4",
             ""
           ];
-        } else if (cmd.startsWith("jsinterp ")) {
+        }
+        else if (cmd.startsWith("jsinterp ")) {
           const code = input.slice(9).trim();
           try {
+            // eslint-disable-next-line no-eval
             const result = eval(code);
-            output = [`> ${code}`, `${result}`, ""];
-          } catch (error) {
-            output = [`> ${code}`, `Error: ${error.message}`, ""];
+            output = ["> " + code, String(result), ""];
+          } catch (error: any) {
+            output = ["> " + code, `Error: ${error.message}`, ""];
           }
-        } else if (cmd === "") {
+        }
+        else if (cmd === "") {
           output = [""];
-        } else {
+        }
+        else {
           output = [`Command not found: ${cmd}`, "Type 'help' for available commands", ""];
         }
+        break;
+      }
     }
 
     setCommands(prev => [...prev, { input, output }]);

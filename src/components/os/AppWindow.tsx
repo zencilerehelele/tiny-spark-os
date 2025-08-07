@@ -29,6 +29,7 @@ import PlanetExplorationSimulator from "../apps/PlanetExplorationSimulator";
 import Bazaar from "../apps/Bazaar";
 import Tupack from "../apps/Tupack";
 import BrowserEngine from "../apps/BrowserEngine";
+import { FlightSimulator } from "../apps/FlightSimulator";
 
 interface Window {
   id: string;
